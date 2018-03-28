@@ -12,6 +12,9 @@ public class Main {
 		play.controlePosition();
 		play.parcoursMatrice();
 		System.out.println(play);
+		
+		
+		// TODO TEST COMMIT BASTIEN 
 
 	}
 
