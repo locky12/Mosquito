@@ -10,7 +10,7 @@ public abstract class Agents {
 	protected int y;
 	protected int copyX;
 	protected int copyY;
-	protected char sexe;
+	protected boolean estFille = false;
 	protected boolean infecte = false;
 	
 	public Agents () {
@@ -19,6 +19,9 @@ public abstract class Agents {
 	public Agents (int x, int y) {
 		this.x = x;
 		this.y = y;
+	}
+	public Agents (int x, int y ,boolean sexe,boolean infecte ) {
+		
 	}
 	
 	public  int generateX () {
@@ -40,11 +43,29 @@ public abstract class Agents {
 		return (int)position;
 	}
 	
+	public boolean restePosition () {
+		if ((x == copyX && y != copyY) || (x!=copyX && y==copyY) || (x!=copyX && y!=copyY) ) {
+			return true;
+		}
+		return false;
+	}
+	
+	protected abstract void Generate ();
+
+	/* Getter and Setter */
 	public void setXY (int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
-	/* Getter and Setter */
+	
+	
+	
+	public boolean isEstFille() {
+		return estFille;
+	}
+	public void setEstFille(boolean estFille) {
+		this.estFille = estFille;
+	}
 	/**
 	 * @return the x
 	 */
@@ -75,18 +96,9 @@ public abstract class Agents {
 	public void setY(int y) {
 		this.y = y;
 	}
+
 	/**
-	 * @return the sexe
-	 */
-	public char getSexe() {
-		return sexe;
-	}
-	/**
-	 * @param sexe the sexe to set
-	 */
-	public void setSexe(char sexe) {
-		this.sexe = sexe;
-	}
+
 	/**
 	 * @return the infecte
 	 */

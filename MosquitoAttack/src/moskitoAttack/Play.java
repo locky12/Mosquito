@@ -98,7 +98,7 @@ public class Play {
 		
 	
 	}
-	/* controle les position et déplace si POSITION CORRECT*/
+	/* controle les position et deplace si POSITION CORRECT*/
 	private void controlePosition() {
 		int control;
 		System.out.println("taille next : " + next.size());
@@ -117,7 +117,7 @@ public class Play {
 				System.out.println("controle : " + control);
 				if (control == next.size()-1) {
 						System.out.println("agent passe le cotrole");
-					if ((agent.getX() != agent.getCopyX()) && (agent.getY() != agent.getCopyY())) {
+					if (agent.restePosition() == true) {
 						System.out.println("l'agent bouge");
 						array[agent.getX()][agent.getY()] = agent;
 						array[agent.getCopyX()][agent.getCopyY()] = null;
