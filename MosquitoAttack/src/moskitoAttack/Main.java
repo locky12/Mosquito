@@ -11,6 +11,9 @@ public class Main {
 		play.initArray();
 		play.parcoursMatrice();
 		System.out.println(play);
+		
+		
+		// TODO TEST COMMIT BASTIEN 
 
 	}
 
