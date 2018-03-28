@@ -10,7 +10,7 @@ public class Mosquito extends Agents {
 	}
 	@Override
 	public String toString () {
-		if (this.estFille == false) {
+		if (this.sexe == 'f') {
 			if (this.infecte == true) {
 				return "F";
 			}
@@ -21,10 +21,5 @@ public class Mosquito extends Agents {
 		else {
 			return "h";
 		}
-	}
-	@Override
-	protected void Generate() {
-		// TODO Auto-generated method stub
-		
 	}
 }
