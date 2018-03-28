@@ -11,7 +11,9 @@ public class Humain extends Agents {
 		super (i,j);
 	}
 	
-		
+	public Humain ( int x, int y , boolean sexe , boolean infecte) {
+		super (x,y,sexe);
+	}
 	
 	@Override
 	public String toString () {

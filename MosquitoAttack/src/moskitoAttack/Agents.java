@@ -5,7 +5,13 @@ import java.util.ArrayList;
 
 public abstract class Agents {
 	public static final int SIZE = 10;
-	protected MersenneTwister rand = new MersenneTwister();
+	public static MersenneTwister rand = new MersenneTwister();
+	
+	
+	public MersenneTwister getRand() {
+		return rand;
+	}
+	
 	protected int x;
 	protected int y;
 	protected int copyX;
@@ -14,14 +20,18 @@ public abstract class Agents {
 	protected boolean infecte = false;
 	
 	public Agents () {
-		
+		this.x = generatorPosition(0,SIZE);
+		this.y = generatorPosition(0,SIZE);
+		this.estFille = rand.nextBoolean();
 	}
 	public Agents (int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
-	public Agents (int x, int y ,boolean sexe,boolean infecte ) {
-		
+	public Agents (int x, int y ,boolean sexe) {
+		this.x = x;
+		this.y = y;
+		this.estFille = sexe;
 	}
 	
 	public  int generateX () {
@@ -40,6 +50,13 @@ public abstract class Agents {
 		position = rand.nextDouble() *((y+1) - (y-1)+1) + y-1;
 		position = (SIZE + (int)position)%SIZE;
 		System.out.println("y : " + position);
+		return (int)position;
+	}
+	
+	public int generatorPosition (int max, int min) {
+		double position = 0;
+		position = rand.nextDouble() *(max - min+1) + min;
+		
 		return (int)position;
 	}
 	

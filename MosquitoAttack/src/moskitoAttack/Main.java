@@ -8,7 +8,8 @@ public class Main {
 		// TODO Auto-generated method stub
 		System.out.println("Hello world");
 		Play play = new Play();
-		play.initArray();
+		play.initAleaMat();
+		play.controlePosition();
 		play.parcoursMatrice();
 		System.out.println(play);
 

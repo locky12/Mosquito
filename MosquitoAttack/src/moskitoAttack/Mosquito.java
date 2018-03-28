@@ -7,7 +7,14 @@ public class Mosquito extends Agents {
 	}
 	public Mosquito () {
 		super();
+		this.infecte = rand.nextBoolean();
 	}
+	public Mosquito ( int x, int y , boolean sexe , boolean infecte) {
+		super (x,y,sexe);
+		this.infecte = infecte;
+	}
+	
+	
 	@Override
 	public String toString () {
 		if (this.estFille == false) {

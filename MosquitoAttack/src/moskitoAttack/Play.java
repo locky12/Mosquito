@@ -8,7 +8,7 @@ public class Play {
 	private Agents [][] array;
 	private Agents agents;
 	private ArrayList<Agents> next = new ArrayList<Agents> ();
-	
+	private MersenneTwister rand = new MersenneTwister();
 	
 	
 	public Play () {
@@ -99,7 +99,7 @@ public class Play {
 	
 	}
 	/* controle les position et deplace si POSITION CORRECT*/
-	private void controlePosition() {
+	public void controlePosition() {
 		int control;
 		System.out.println("taille next : " + next.size());
 		for (Agents agent : next) {
@@ -130,6 +130,22 @@ public class Play {
 		next.removeAll(next);
 	}
 	
+	
+	public void initAleaMat () {
+		double alea = 0.;
+		Humain humain;
+		Mosquito mosquito;
+		for (int i = 0; i < 7; i++) {
+			alea =  rand.nextDouble();
+			
+			if (alea > 0.5) {
+				next.add(new Mosquito());
+			}
+			else {
+				next.add(new Humain());
+			}
+		}
+	}
 	
 	@Override
 	public String toString () {
