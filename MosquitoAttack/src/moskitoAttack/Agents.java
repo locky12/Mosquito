@@ -10,14 +10,19 @@ public abstract class Agents {
 	public MersenneTwister getRand() {
 		return rand;
 	}
-
+	
+	// Position actuelle
 	protected int x;
 	protected int y;
-	protected int copyX;
+	
+	// Sauvegarde de la position precedente lors d'un deplacement
+	protected int copyX;					
 	protected int copyY;
+	
 	protected boolean estFille = false;
 	protected boolean infecte = false;
-
+	
+	
 	public Agents() {
 		this.x = generatorPosition(0, SIZE);
 		this.y = generatorPosition(0, SIZE);
@@ -50,6 +55,7 @@ public abstract class Agents {
 		return (int) position;
 	}
 
+	// TODO Inutile ? Supprimer ou fusionner avec generateX() ?
 	public int generateY() {
 		double position = -1;
 		position = rand.nextDouble() * ((y + 1) - (y - 1) + 1) + y - 1;
@@ -58,6 +64,12 @@ public abstract class Agents {
 		return (int) position;
 	}
 
+	/*******************************************************************
+	 * TODO renommer en generateInt ?
+	 * @param max: valeur maximale possible
+	 * @param min: valeur minimale possible
+	 * @return nombre pseudo aleatoire bonre par min et max
+	 *******************************************************************/
 	public int generatorPosition(int max, int min) {
 		double position = 0;
 		position = rand.nextDouble() * (max - min + 1) + min;
@@ -65,6 +77,11 @@ public abstract class Agents {
 		return (int) position;
 	}
 
+	/*******************************************************************
+	 * TODO Renommer en positionValide ?
+	 * @param agent: agent dont on compare la position avec this
+	 * @return False si 'agent' est sur la positon de this. True sinon
+	 *******************************************************************/
 	public boolean PositionControle(Agents agent) {
 //		System.out.println("this :  x : " + this.x + "y : "+ this.y);
 //		System.out.println("Agent param :  x : " + this.x + "y : "+ this.y);
@@ -81,6 +98,11 @@ public abstract class Agents {
 		return false;
 	}
 
+	/********************************************************************
+	 * TODO Renommer en 'positionDifferente' ?
+	 * @return 	True si la position actuelle est differente par rapport
+	 * 			a la precedente, False sinon
+	 ********************************************************************/
 	public boolean restePosition() {
 		if ((x == copyX && y != copyY)) {
 			return true;
@@ -94,8 +116,6 @@ public abstract class Agents {
 		return false;
 	}
 	
-
-	protected abstract void Generate();
 
 	/* Getter and Setter */
 	public void setXY(int x, int y) {
