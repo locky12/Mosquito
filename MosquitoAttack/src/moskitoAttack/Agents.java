@@ -93,6 +93,7 @@ public abstract class Agents {
 		}
 		return false;
 	}
+	
 
 	protected abstract void Generate();
 

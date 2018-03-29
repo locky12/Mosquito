@@ -8,10 +8,13 @@ public class Mosquito extends Agents {
 	public Mosquito () {
 		super();
 		this.infecte = rand.nextBoolean();
+		
+		
 	}
-	public Mosquito ( int x, int y , boolean sexe , boolean infecte) {
-		super (x,y,sexe);
+	public Mosquito (boolean infecte) {
+		super ();
 		this.infecte = infecte;
+		
 	}
 	
 	

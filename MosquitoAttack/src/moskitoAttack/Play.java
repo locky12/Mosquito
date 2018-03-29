@@ -21,25 +21,36 @@ public class Play {
 	}
 		
 	public void chercheVoisin(int i, int j) throws ClassNotFoundException {
+		Agents agent = array[i][j];
+		Agents ag;
 		for (int l = i-1; l <= i + 1; l++) {
 			for (int k = j-1; k <= j+1; k++) {
 				int x = (SIZE + l)%SIZE;
 				int y = (SIZE + j)%SIZE;
-				agents = array[x][y];
+
+				if (array[x][y] != null) {
+					//ag = array[x][y];
+				}
+
 				if (i != x && j != l) {
-					if(array[i][j].getClass() == Class.forName("Humain"))
-						if (array[x][y].getClass() == Class.forName("Humain") ) {
-						
+					if (array [x][y] != null) {
+						if(agent.getClass().getName() == moskitoAttack.Humain.class.getName() )
+							if (array [x][y].getClass().getName() == moskitoAttack.Humain.class.getName() ) {
+
+							}
+						if (array [x][y].getClass().getName() == moskitoAttack.Mosquito.class.getName()) {
+
 						}
-						if (array[x][y].getClass() == Class.forName("Mosquito")) {
-							
-						}
-					if(this.getClass() == Class.forName("Mosquito")) {
-						if (array[x][y].getClass() == Class.forName("Humain") ) {
-							
-						}
-						if (array[x][y].getClass() == Class.forName("Mosquito")) {
-							
+						if(agent.getClass().getName() == moskitoAttack.Mosquito.class.getName()) {
+
+							if (array [x][y] .getClass().getName() == moskitoAttack.Humain.class.getName() ) {
+								if (agent.isInfecte() == true && agent.estFille) {
+									array [x][y] .setInfecte(true);
+								}
+							}
+							if (array [x][y] .getClass().getName() == moskitoAttack.Mosquito.class.getName()) {
+
+							}
 						}
 					}
 				}
@@ -82,6 +93,12 @@ public class Play {
 						//System.out.printf("tab[%d][%d] +  ",i,j);
 						//System.out.println(array[i][j]);
 						compte++;
+						try {
+							chercheVoisin(i,j);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						moveAgents(i,j);
 					}
 				}
@@ -91,13 +108,13 @@ public class Play {
 			System.out.println("Nbre de boucle : " + compteBoucle);
 			System.out.println("compte : " + compte);
 			System.out.println("suivant ?");
-			//saisie = scan.nextInt();
-			try {
+			saisie = scan.nextInt();
+			/*try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 		}
 	}
 	
@@ -155,7 +172,7 @@ public class Play {
 			else {
 				agent.modifierPosition();
 				//System.out.printf("AgentMODIFI = x : %d , y : %d \n", agent.getX(),agent.getY());
-				System.out.println("**********la position d'un agent est modifier********");
+				//System.out.println("**********la position d'un agent est modifier********");
 				index --;
 			}
 				
