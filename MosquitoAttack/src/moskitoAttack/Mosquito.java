@@ -26,7 +26,7 @@ public class Mosquito extends Agents {
 			}
 		}
 		else {
-			return "h";
+			return "m";
 		}
 	}
 	@Override

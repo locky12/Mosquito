@@ -53,39 +53,51 @@ public class Play {
 		int		y = 0;
 		agents = array[i][j];
 		agents.setCopyXY(i, j);
-		System.out.println("move debut");
+//		System.out.println("move debut");
 		x = agents.generateX();
 		y = agents.generateY();
-		System.out.printf("x : %d, y : %d \n", x , y);
-		if (array[x][y] == null) {
-			System.out.println(array[i][j]);
-			System.out.println("je passe dans move");
-			agents.setXY(x,y);
-			next.add(agents);
-		if(x != i && j != y) {}
+//		System.out.printf("x : %d, y : %d \n", x , y);
+		
+//			System.out.println(array[i][j]);
+//			System.out.println("je passe dans move");
+		agents.setXY(x,y);
+		next.add(agents);
+		
 			//array[i][j] = null;
-		}
+		
 		
 	}
 	public void parcoursMatrice () {
 		Scanner scan = new Scanner(System.in);
+		
 		int saisie = 1;
+		int compteBoucle = 0;
 		while (saisie != 0) {
+			int compte = 0;
+			compteBoucle++;
 			System.out.println(this);
 			for (int i = 0; i < SIZE; i++) {
 				for (int j = 0; j < SIZE; j++) {
-					
 					if (array[i][j] != null) {
-						System.out.printf("tab[%d][%d] +  ",i,j);
-						System.out.println(array[i][j]);
+						//System.out.printf("tab[%d][%d] +  ",i,j);
+						//System.out.println(array[i][j]);
+						compte++;
 						moveAgents(i,j);
 					}
 				}
 			}
+			
 			controlePosition();
+			System.out.println("Nbre de boucle : " + compteBoucle);
+			System.out.println("compte : " + compte);
 			System.out.println("suivant ?");
-			saisie = scan.nextInt();
-			//Thread.sleep(2000);
+			//saisie = scan.nextInt();
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -100,33 +112,55 @@ public class Play {
 	}
 	/* controle les position et deplace si POSITION CORRECT*/
 	public void controlePosition() {
+//		System.out.println("fonction controle position");
 		int control;
+		Agents agent;
+		Agents ag;
 		System.out.println("taille next : " + next.size());
-		for (Agents agent : next) {
+		for (int index = 0; index < next.size(); index++) {
 			control = 0;
-			for (Agents ag : next) {
-				if (agents != ag) {
-					System.out.println("je passe");
+//			System.out.println(next.get(index));
+			agent = next.get(index);
+			//System.out.printf("Agent = x : %d , y : %d \n", agent.getX(),agent.getY());
+			for (int j = 0; j < next.size(); j++) {
+				ag = next.get(j);
+				//System.out.println("boucle j :*********");
+				if (agent != ag) {
+//					System.out.println("je passe");
+					//System.out.printf("Agent = x : %d , y : %d \n", agent.getX(),agent.getY());
+					//System.out.printf("AgentcOPY = x : %d , y : %d \n", ag.getX(),ag.getY());
 					if (agent.PositionControle(ag)) {
 						control ++;
+						//System.out.printf("Agent = x : %d , y : %d \n", agent.getX(),agent.getY());
+						//System.out.printf("AgentcOPY = x : %d , y : %d \n", ag.getX(),ag.getY());
+						//System.out.println("controle : " + control);
 					}
 					
 				}
-				System.out.printf("Agent = x : %d , y : %d \n", agent.getX(),agent.getY());
-				System.out.printf("AgentcOPY = x : %d , y : %d \n", ag.getX(),ag.getY());
-				System.out.println("controle : " + control);
-				
-				if (control == next.size()-1) {
-						System.out.println("agent passe le cotrole");
-					if (agent.restePosition() == true) {
-						System.out.println("l'agent bouge");
-						array[agent.getX()][agent.getY()] = agent;
+			}
+//			System.out.printf("Agent = x : %d , y : %d \n", agent.getX(),agent.getY());
+//			System.out.printf("AgentcOPY = x : %d , y : %d \n", ag.getX(),ag.getY());
+//			System.out.println("controle : " + control);
+//				
+			if (control == next.size()-1) {
+				//System.out.println("agent passe le cotrole");
+				if (agent.restePosition() == true) {
+					//System.out.println("l'agent bouge");
+					array[agent.getX()][agent.getY()] = agent;
+					if (array[agent.getCopyX()][agent.getCopyY()] == agent) {
 						array[agent.getCopyX()][agent.getCopyY()] = null;
 					}
 				}
-				
-				
 			}
+			else {
+				agent.modifierPosition();
+				//System.out.printf("AgentMODIFI = x : %d , y : %d \n", agent.getX(),agent.getY());
+				System.out.println("**********la position d'un agent est modifier********");
+				index --;
+			}
+				
+				
+			
 		}
 		next.removeAll(next);
 	}
@@ -141,7 +175,7 @@ public class Play {
 		double alea = 0.;
 		Humain humain;
 		Mosquito mosquito;
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 15; i++) {
 			alea =  rand.nextDouble();
 			
 			if (alea > 0.5) {
