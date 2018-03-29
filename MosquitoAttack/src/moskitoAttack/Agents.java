@@ -42,7 +42,7 @@ public abstract class Agents {
 
 	public int generateX() {
 		double position = 0;
-//		System.out.println("génération de x");
+//		System.out.println("generation de x");
 
 		position = rand.nextDouble() * ((x + 1) - (x - 1) + 1) + x - 1;
 		position = (SIZE + (int) position) % SIZE;
