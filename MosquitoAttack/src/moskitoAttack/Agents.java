@@ -33,6 +33,11 @@ public abstract class Agents {
 		this.y = y;
 		this.estFille = sexe;
 	}
+	public void modifierPosition () {
+		this.x = generateX();
+		this.y = generateY();
+	}
+		
 	
 	public  int generateX () {
 		double position = -1;
@@ -60,8 +65,27 @@ public abstract class Agents {
 		return (int)position;
 	}
 	
+	public boolean PositionControle (Agents agent) {
+		if ((x == agent.x && y != agent.y)  ) {
+			return true;
+		}
+		if ( (x!=agent.x && y==agent.y)) {
+			return true;
+		}
+		if ( (x!=agent.x && y!=agent.y) ) {
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean restePosition () {
-		if ((x == copyX && y != copyY) || (x!=copyX && y==copyY) || (x!=copyX && y!=copyY) ) {
+		if ((x == copyX && y != copyY)  ) {
+			return true;
+		}
+		if ( (x!=copyX && y==copyY)) {
+			return true;
+		}
+		if ( (x!=copyX && y!=copyY) ) {
 			return true;
 		}
 		return false;

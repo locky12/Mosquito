@@ -107,14 +107,15 @@ public class Play {
 			for (Agents ag : next) {
 				if (agents != ag) {
 					System.out.println("je passe");
-					if (agent.getX() != ag.getX() && agent.getY() != ag.getY()) {
+					if (agent.PositionControle(ag)) {
 						control ++;
 					}
 					
 				}
 				System.out.printf("Agent = x : %d , y : %d \n", agent.getX(),agent.getY());
-				System.out.printf("AgentcOPY = x : %d , y : %d \n", agent.getCopyX(),agent.getCopyY());
+				System.out.printf("AgentcOPY = x : %d , y : %d \n", ag.getX(),ag.getY());
 				System.out.println("controle : " + control);
+				
 				if (control == next.size()-1) {
 						System.out.println("agent passe le cotrole");
 					if (agent.restePosition() == true) {
@@ -130,6 +131,11 @@ public class Play {
 		next.removeAll(next);
 	}
 	
+	private void affichelist () {
+		for (Agents i : next) {
+			System.out.println("i : " + i.getX() + "j : " + i.getY());
+		}
+	}
 	
 	public void initAleaMat () {
 		double alea = 0.;
@@ -145,6 +151,7 @@ public class Play {
 				next.add(new Humain());
 			}
 		}
+		affichelist();
 	}
 	
 	@Override
