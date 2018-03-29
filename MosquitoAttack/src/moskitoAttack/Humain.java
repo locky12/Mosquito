@@ -34,10 +34,4 @@ public class Humain extends Agents {
 			}
 		}
 	}
-
-	@Override
-	protected void Generate() {
-		// TODO Auto-generated method stub
-		
-	}
 }
