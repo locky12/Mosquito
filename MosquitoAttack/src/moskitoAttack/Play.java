@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Play {
-	public static final int SIZE = 10;
+	public static final int SIZE = 20;
 	private Agents [][] array;
 	private Agents agents;
 	private ArrayList<Agents> next = new ArrayList<Agents> ();
@@ -23,41 +23,59 @@ public class Play {
 	public void chercheVoisin(int i, int j) throws ClassNotFoundException {
 		Agents agent = array[i][j];
 		Agents ag;
-		for (int l = i-1; l <= i + 1; l++) {
-			for (int k = j-1; k <= j+1; k++) {
-				int x = (SIZE + l)%SIZE;
-				int y = (SIZE + j)%SIZE;
+		double comportement = 0.;
+		int position = 0;
+		// System.out.println("3 : 3 " + array[3][3].getClass().getName());
+		// System.out.println("3 : 2 " + array[3][2].getClass().getName());
+		for (int l = i - 1; l <= i + 1; l++) {
+			for (int k = j - 1; k <= j + 1; k++) {
+				int x = (SIZE + l) % SIZE;
+				int y = (SIZE + k) % SIZE;
+				// position ++;
+				// System.out.println("avant boucle agent : " + agent);
 
-				if (array[x][y] != null) {
-					//ag = array[x][y];
-				}
-
-				if (i != x && j != l) {
-					if (array [x][y] != null) {
-						if(agent.getClass().getName() == moskitoAttack.Humain.class.getName() )
-							if (array [x][y].getClass().getName() == moskitoAttack.Humain.class.getName() ) {
-
-							}
-						if (array [x][y].getClass().getName() == moskitoAttack.Mosquito.class.getName()) {
-
-						}
-						if(agent.getClass().getName() == moskitoAttack.Mosquito.class.getName()) {
-
-							if (array [x][y] .getClass().getName() == moskitoAttack.Humain.class.getName() ) {
-								if (agent.isInfecte() == true && agent.estFille) {
-									array [x][y] .setInfecte(true);
+				if (x != i && j != y) {
+					if (array[x][y] != null) {
+						comportement = rand.nextDouble();
+						System.out.println("comportemnt : " + comportement);
+						// System.out.println("avant boucle agent : " + agent);
+						if (agent.getClass().getName() == moskitoAttack.Humain.class.getName()) {
+							// System.out.println("agent : " + agent);
+							if (array[x][y].getClass().getName() == moskitoAttack.Humain.class.getName()) {
+								if (agent.estFille != array[x][y].estFille && comportement < 0.1) {
+									next.add(new Humain ());
+									System.out.println("un humain est nee");
 								}
 							}
-							if (array [x][y] .getClass().getName() == moskitoAttack.Mosquito.class.getName()) {
+							if (array[x][y].getClass().getName() == moskitoAttack.Mosquito.class.getName()) {
+								
+							}
+						}
+						if (agent.getClass().getName() == moskitoAttack.Mosquito.class.getName()) {
+							System.out.println("agentMoustique : " + agent);
+							if (array[x][y].getClass().getName() == moskitoAttack.Humain.class.getName()) {
+								if (agent.isInfecte() == true && agent.estFille == true) {
+									array[x][y].setInfecte(true);
+									System.out.println("un moustique infecte un humain");
+								}
+								if (array[x][y].isInfecte() == true && agent.estFille == true) {
+									agent.setInfecte(true);
+									System.out.println("x :" + agent.getX() + " y : " + agent.getY() + " inf :"
+											+ agent.isInfecte());
+									System.out.println("un moustique est infecte par l'humain");
+								}
+							}
+							if (array[x][y].getClass().getName() == moskitoAttack.Mosquito.class.getName()) {
 
 							}
 						}
 					}
 				}
 			}
+
 		}
+		// System.out.println("position : " + position );
 	}
-	
 	
 	public void moveAgents (int i, int j) {
 		int 	x = 0;
@@ -94,6 +112,7 @@ public class Play {
 						//System.out.println(array[i][j]);
 						compte++;
 						try {
+							
 							chercheVoisin(i,j);
 						} catch (ClassNotFoundException e) {
 							// TODO Auto-generated catch block

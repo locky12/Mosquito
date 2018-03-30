@@ -4,7 +4,7 @@ package moskitoAttack;
 import java.util.ArrayList;
 
 public abstract class Agents {
-	public static final int SIZE = 10;
+	public static final int SIZE = 20;
 	public static MersenneTwister rand = new MersenneTwister();
 
 	public MersenneTwister getRand() {

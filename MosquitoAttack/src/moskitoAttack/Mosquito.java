@@ -20,7 +20,7 @@ public class Mosquito extends Agents {
 	
 	@Override
 	public String toString () {
-		if (this.estFille == false) {
+		if (this.estFille == true) {
 			if (this.infecte == true) {
 				return "F";
 			}
