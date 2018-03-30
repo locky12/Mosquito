@@ -32,9 +32,4 @@ public class Mosquito extends Agents {
 			return "m";
 		}
 	}
-	@Override
-	protected void Generate() {
-		// TODO Auto-generated method stub
-		
-	}
 }
