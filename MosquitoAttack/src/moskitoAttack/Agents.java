@@ -4,12 +4,18 @@ package moskitoAttack;
 import java.util.ArrayList;
 
 public abstract class Agents {
-	public static final int SIZE = 20;
-	public static MersenneTwister rand = new MersenneTwister();
+	public static final int SIZE = 40;
+	protected static final String CLASSE_MOSQUITO = moskitoAttack.Mosquito.class.getName();
+	protected static final String CLASSE_HUMAIN = moskitoAttack.Humain.class.getName() ;
+	
 
+	public static MersenneTwister rand = new MersenneTwister(3);
+	protected Play play;
+	
 	public MersenneTwister getRand() {
 		return rand;
 	}
+	protected ArrayList<Agents> naissanceList = new ArrayList<Agents>();
 	
 	// Position actuelle
 	protected int x;
@@ -18,57 +24,63 @@ public abstract class Agents {
 	// Sauvegarde de la position precedente lors d'un deplacement
 	protected int copyX;					
 	protected int copyY;
-	
 	protected boolean estFille = false;
 	protected boolean infecte = false;
 	
+	// Variable de comportement;
+	protected boolean estMort = false;
+	protected boolean aBebe = false;
 	
+	
+	
+
+
+	public Agents (int x, int y) {
+		this.x = x;
+		this.y = y;
+		this.estFille = rand.nextBoolean();
+	}
+	
+	/* Constructeur */
 	public Agents() {
 		this.x = generatorPosition(0, SIZE);
 		this.y = generatorPosition(0, SIZE);
 		this.estFille = rand.nextBoolean();
 	}
 
-	public Agents(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
+	/* Methode */
+	//TODO a voir dans humain et moustqiue
+	public abstract boolean killAgent(Agents[][] array);
+	public abstract boolean naissance (Agents agent);
+	
 
-	public Agents(int x, int y, boolean sexe) {
-		this.x = x;
-		this.y = y;
-		this.estFille = sexe;
-	}
-
-	public void modifierPosition() {
+	/*public void modifierPosition() {
 		this.x = generateX();
 		this.y = generateY();
+	}*/
+	
+	/* crée une copie de la position avant de la changer */
+	public void changePosition () {
+		this.copyX = x;
+		this.copyY = y;
+		newPosition();
 	}
-
-	public int generateX() {
-		double position = 0;
-//		System.out.println("generation de x");
-
-		position = rand.nextDouble() * ((x + 1) - (x - 1) + 1) + x - 1;
-		position = (SIZE + (int) position) % SIZE;
-//		System.out.println("x : " + position);
-		return (int) position;
-	}
-
-	// TODO Inutile ? Supprimer ou fusionner avec generateX() ?
-	public int generateY() {
-		double position = -1;
-		position = rand.nextDouble() * ((y + 1) - (y - 1) + 1) + y - 1;
-		position = (SIZE + (int) position) % SIZE;
-//		System.out.println("y : " + position);
-		return (int) position;
+	
+	
+	// insere la nouvelle position d'un agent en la generant aleatoirement
+	public void newPosition () {
+		int newX = generatorPosition(this.x+2, this.x-2);
+		int newY = generatorPosition(this.y+2, this.y-2);
+	
+		this.x = (SIZE + newX) % SIZE;
+		this.y = (SIZE + newY) % SIZE;
 	}
 
 	/*******************************************************************
 	 * TODO renommer en generateInt ?
 	 * @param max: valeur maximale possible
 	 * @param min: valeur minimale possible
-	 * @return nombre pseudo aleatoire bonre par min et max
+	 * @return nombre pseudo aleatoire borne par min et max
 	 *******************************************************************/
 	public int generatorPosition(int max, int min) {
 		double position = 0;
@@ -83,8 +95,7 @@ public abstract class Agents {
 	 * @return False si 'agent' est sur la positon de this. True sinon
 	 *******************************************************************/
 	public boolean PositionControle(Agents agent) {
-//		System.out.println("this :  x : " + this.x + "y : "+ this.y);
-//		System.out.println("Agent param :  x : " + this.x + "y : "+ this.y);
+
 		if ((x == agent.x && y != agent.y)) {
 			return true;
 		}
@@ -94,7 +105,7 @@ public abstract class Agents {
 		if ((x != agent.x && y != agent.y)) {
 			return true;
 		}
-//		System.out.println("******faux ***********");
+
 		return false;
 	}
 
@@ -116,7 +127,9 @@ public abstract class Agents {
 		return false;
 	}
 	
-
+	
+	
+	
 	/* Getter and Setter */
 	public void setXY(int x, int y) {
 		this.x = x;
@@ -214,4 +227,31 @@ public abstract class Agents {
 	public void setCopyY(int copyY) {
 		this.copyY = copyY;
 	}
+	
+	public boolean isEstMort() {
+		return estMort;
+	}
+
+	public void setEstMort(boolean estMort) {
+		this.estMort = estMort;
+	}
+
+	public void setaBebe(boolean aBebe) {
+		this.aBebe = aBebe;
+	}
+
+	
+	public static String getClasseMosquito() {
+		return CLASSE_MOSQUITO;
+	}
+
+	public static String getClasseHumain() {
+		return CLASSE_HUMAIN;
+	}
+
+	public void contagion(Agents agent) {
+		// TODO Auto-generated method stub
+		
+	}
+		
 }
