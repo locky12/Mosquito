@@ -14,7 +14,7 @@ public class Play {
 	// Variable temporaire globale TODO (Reflechir a la virer)
 	private Agents Ag;
 	private int[] resultat = new int[4];
-	private boolean[][] resultatSimulation = new boolean[10][3];
+	private boolean [][] resultatSimulation = new boolean [10][3];
 	// Liste des agents presents dans notre matrice (Necessaire pour gerer les
 	// deplacements)
 	private ArrayList<Agents> nextList = new ArrayList<Agents>();
@@ -68,6 +68,8 @@ public class Play {
 		Scanner scan = new Scanner(System.in);
 		// initArray();
 
+
+
 		while (nombreSimu < 10) {
 			System.out.println("***********************nouvelle simulation*******************************");
 			Agents.setNbSimu(nombreSimu);
@@ -78,6 +80,7 @@ public class Play {
 			int compte = 0;
 			compteBoucle = 0;
 			while (arret != true) {
+				
 
 				compteBoucle++;
 				parcoursMatrice();
@@ -89,31 +92,29 @@ public class Play {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				// System.out.println("suivant ?");
-				// saisie = scan.nextInt();
+				//System.out.println("suivant ?");
+				//saisie = scan.nextInt();
 				arret = testArretSimulation(nombreSimu);
 				initResultat();
 			}
-
+			
 			nombreSimu++;
 		}
-		MatriceRSimu();
+		MatriceRSimu ();
 	}
-
 	// vide la matrice au debut de chaque simulation
-	private void reInitMatrix() {
+	private void reInitMatrix () {
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
 				matrix[i][j] = null;
 			}
 		}
 	}
-
-	private boolean testArretSimulation(int nombreSimu) {
+	private boolean testArretSimulation (int nombreSimu) {
 		System.out.println("nombre simu : " + nombreSimu);
 		if (resultat[0] == 0) {
-			System.out.println("reslut [0] : " + resultat[0]);
-
+			System.out.println("reslut [0] : "+ resultat[0]);
+			
 			resultatSimulation[nombreSimu][0] = true;
 			return true;
 
@@ -124,7 +125,7 @@ public class Play {
 		}
 		if (resultat[1] == 0 && resultat[3] == 0) {
 			resultatSimulation[nombreSimu][2] = true;
-			// return true;
+			//return true;
 		}
 		return false;
 	}
@@ -189,7 +190,8 @@ public class Play {
 							matrix[i][j].setaBebe(false);
 							addListe(matrix[i][j]);
 
-						} else {
+						}
+						else {
 							if (matrix[i][j].isEstMort() == true) {
 								matrix[i][j].mortAgent(matrix);
 							}
@@ -228,6 +230,7 @@ public class Play {
 					agent.setEstMort(true);
 				}
 
+
 			}
 		}
 
@@ -245,7 +248,7 @@ public class Play {
 			}
 			if (agent.getClass().getName() == Agents.getClasseMosquito()) {
 				if (agent.naissance(voisin) == true) {
-					// generateBabyMosquito (agent);
+					//generateBabyMosquito (agent);
 					nextList.add(new Mosquito(agent.getX(), agent.getY(), false));
 				}
 				agent.contagion(voisin);
@@ -292,7 +295,7 @@ public class Play {
 		nextList.clear();
 	}
 
-	// deplace l'agent a sa nouvelle position et verifie si sont ancienne
+	// deplace l'agent a c=ça nouvelle position et verifie si sont ancienne
 	// postition est occupe si libre on libere la case
 	private void deplaceAgent(Agents agent) {
 		matrix[agent.getX()][agent.getY()] = agent;
@@ -321,7 +324,7 @@ public class Play {
 				nextList.add(new Humain());
 			}
 		}
-		compteAgentsDepart();
+		compteAgentsDepart ();
 	}
 
 	@Override
@@ -339,9 +342,9 @@ public class Play {
 		}
 		return view;
 	}
-
-	private void MatriceRSimu() {
-		for (int i = 0; i < 10; i++) {
+	
+	private void MatriceRSimu () {
+		for (int i = 0; i < 10; i++ ) {
 			for (int j = 0; j < 3; j++) {
 				System.out.println(" " + resultatSimulation[i][j] + " ");
 			}
@@ -349,7 +352,7 @@ public class Play {
 		}
 	}
 
-	private void compteAgentsDepart() {
+	private void compteAgentsDepart () {
 		for (Agents agent : nextList) {
 			resultat(agent);
 		}
