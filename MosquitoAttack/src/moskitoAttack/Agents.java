@@ -4,34 +4,48 @@ package moskitoAttack;
 import java.util.ArrayList;
 
 public abstract class Agents {
-	public static final int SIZE = 40;
-	protected static final String CLASSE_MOSQUITO = moskitoAttack.Mosquito.class.getName();
-	protected static final String CLASSE_HUMAIN = moskitoAttack.Humain.class.getName() ;
+	public static final int SIZE 					= 40;
+	protected static final 	String CLASSE_MOSQUITO 	= moskitoAttack.Mosquito.class.getName();
+	protected static final 	String CLASSE_HUMAIN 	= moskitoAttack.Humain.class.getName() ;
 	
 
-	public static MersenneTwister rand = new MersenneTwister(3);
-	protected Play play;
+	public static MersenneTwister rand 				= new MersenneTwister();
 	
-	public MersenneTwister getRand() {
-		return rand;
-	}
-	protected ArrayList<Agents> naissanceList = new ArrayList<Agents>();
 	
+
 	// Position actuelle
-	protected int x;
-	protected int y;
+	protected int 		x;
+	protected int 		y;
 	
 	// Sauvegarde de la position precedente lors d'un deplacement
-	protected int copyX;					
-	protected int copyY;
-	protected boolean estFille = false;
-	protected boolean infecte = false;
+	protected int 		copyX;					
+	protected int 		copyY;
+	
 	
 	// Variable de comportement;
-	protected boolean estMort = false;
-	protected boolean aBebe = false;
+	protected boolean 	estFille 	 	 = false;
+	protected boolean 	infecte  		 = false;
+	protected boolean 	estMort 		 = false;
+	protected boolean 	aBebe 			 = false;
 	
+	// Resultat;
+	private static final int NB_COL 	= 6;
+	private static final int NB_LIGNE 	= 10;
 	
+	protected static int [][] 	matriceResultat = new int [NB_LIGNE][NB_COL];
+	
+	protected static int 	   	nbSimu   		 = 0;
+	// colonne des matrices de resultat;
+	protected static final int COL_MORT_H   	= 0;
+	protected static final int COL_NAISSANCE_H 	= 1;
+	protected static final int COL_MORT_M   	= 2;
+	protected static final int COL_NAISSANCE_M 	= 3;
+	protected static final int COL_INFECTE 		= 4;
+	protected static final int COL_M_INFECTE 	= 5;
+	
+	public static void setNbSimu (int nombre) {
+		nbSimu = nombre;
+	}
 	
 
 
@@ -52,6 +66,7 @@ public abstract class Agents {
 	//TODO a voir dans humain et moustqiue
 	public abstract boolean killAgent(Agents[][] array);
 	public abstract boolean naissance (Agents agent);
+	public abstract void mortAgent (Agents [][]  array);
 	
 
 	/*public void modifierPosition() {
@@ -65,6 +80,7 @@ public abstract class Agents {
 		this.copyY = y;
 		newPosition();
 	}
+
 	
 	
 	// insere la nouvelle position d'un agent en la generant aleatoirement
@@ -128,7 +144,16 @@ public abstract class Agents {
 	}
 	
 	
+	// Affichage de la matrice de resultat
 	
+	public static void afficheResultatMatrice () {
+		for(int i = 0; i < 10; i++) {
+			for (int j = 0; j <6; j++ ) {
+				System.out.print(" " + matriceResultat[i][j] + " ");
+			}
+			System.out.println("");
+		}
+	}
 	
 	/* Getter and Setter */
 	public void setXY(int x, int y) {

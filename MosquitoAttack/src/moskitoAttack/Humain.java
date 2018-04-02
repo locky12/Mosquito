@@ -22,7 +22,7 @@ public class Humain extends Agents {
 		if (this.infecte == true) {
 			this.nbJourInfecte++;
 			if (comportement < 0.1) {
-				array[this.x][this.y] = null;
+				mortAgent(array);
 				System.out.println("un humain est mort");
 					return true;
 			}
@@ -46,12 +46,28 @@ public class Humain extends Agents {
 		//System.out.println("agent : "+ this + " |voisin : " + agent);
 		if (chance > 0.90 && agent.estFille == false && this.aBebe == false && agent.getClass().getName() == CLASSE_HUMAIN) {
 			System.out.println("Un humain est nee");
+			compteNaissanceHumain ();
 			this.aBebe = true;
 			return true;
 			
 			//play.addListNext(new Humain ());
 		}
 		return false;
+	}
+	@Override
+	public void mortAgent (Agents[][] array) {
+		array[this.getX()][this.getY()] = null;
+		compteMortHumain();
+	}
+	
+	// resultat
+	
+	private void compteMortHumain () {
+		matriceResultat [nbSimu][COL_MORT_H] += 1;
+	}
+	//compte le nombre de naissance 
+	private void compteNaissanceHumain () {
+		matriceResultat [nbSimu][COL_NAISSANCE_H] += 1;
 	}
 	
 /* *****************ToString ********************/
