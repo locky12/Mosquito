@@ -34,7 +34,7 @@ public abstract class Agents {
 	
 	protected static int [][] 	matriceResultat = new int [NB_LIGNE][NB_COL];
 	
-	protected static int 	   	nbSimu   		 = 0;
+	protected static int 	   	nbSimu   		= 0;
 	// colonne des matrices de resultat;
 	protected static final int COL_MORT_H   	= 0;
 	protected static final int COL_NAISSANCE_H 	= 1;
@@ -62,8 +62,8 @@ public abstract class Agents {
 		this.estFille = rand.nextBoolean();
 	}
 
-	/* Methode */
-	//TODO a voir dans humain et moustqiue
+	/* Methodes */
+	// Redefinies dans Humain et Mosquito
 	public abstract boolean killAgent(Agents[][] array);
 	public abstract boolean naissance (Agents agent);
 	public abstract void mortAgent (Agents [][]  array);
@@ -172,7 +172,6 @@ public abstract class Agents {
 	/**
 	 * @return the x
 	 */
-
 	public void setCopyXY(int x, int y) {
 		this.copyX = x;
 		this.copyY = y;

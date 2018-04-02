@@ -364,5 +364,41 @@ public class Play {
 	public void concateneList(ArrayList<Agents> naissanceList) {
 		nextList.addAll(naissanceList);
 	}
+	
+	// TODO  Calcule la variance d'une liste d'entiers
+	public double getVariance(ArrayList<Integer> val) {
+		double variance	= 0;
 
+		// Moyenne de la serie
+		double moyenne 	= 0;
+		
+		for (Integer i : val) {
+			moyenne += i;
+		}
+		
+		moyenne /= val.size();
+		
+		
+		ArrayList<Double> carreEcartMoyenne = new ArrayList<Double>();
+		for (Integer i : val) {
+			
+			// Carre de l'ecart a la moyenne de chaque valeur
+			carreEcartMoyenne.add(Math.pow(i - moyenne, 2));
+			
+			// On calcule la somme des valeurs obtenues
+			// en additionnant a chaque fois la valeur du dernier item ajoute
+			variance += carreEcartMoyenne.get(carreEcartMoyenne.size()-1); 
+		}
+		
+		variance /= carreEcartMoyenne.size();
+		
+		// On divise par la taille de la serie
+		
+		return variance;
+	}
+
+	// Calcule l'ecart type a partir de la variance
+	public double getEcartType(ArrayList<Integer> val) {
+		return Math.sqrt(this.getVariance(val));
+	}
 }
