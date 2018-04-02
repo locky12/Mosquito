@@ -147,13 +147,64 @@ public abstract class Agents {
 	// Affichage de la matrice de resultat
 	
 	public static void afficheResultatMatrice () {
+
+		System.out.println("\n\n************************** Resultat **************************\n");
+		System.out.print("\t\t"
+				+ "H_dead\t"
+				+ "H_born\t"
+				+ "M_dead\t"
+				+ "M_born\t"
+				+ "H_psn\t"
+				+ "M_psn\t\n"
+		);
+		
 		for(int i = 0; i < 10; i++) {
+			System.out.printf("Simu %d) ", i + 1);
 			for (int j = 0; j <6; j++ ) {
-				System.out.print(" " + matriceResultat[i][j] + " ");
+				
+				System.out.print("\t " + matriceResultat[i][j]);
 			}
 			System.out.println("");
 		}
 	}
+	
+	// TODO  Calcule la variance d'une liste d'entiers
+		public double getVariance(ArrayList<Integer> val) {
+			double variance	= 0;
+
+			// Moyenne de la serie
+			double moyenne 	= 0;
+			
+			for (Integer i : val) {
+				moyenne += i;
+			}
+			
+			moyenne /= val.size();
+			
+			
+			ArrayList<Double> carreEcartMoyenne = new ArrayList<Double>();
+			for (Integer i : val) {
+				
+				// Carre de l'ecart a la moyenne de chaque valeur
+				carreEcartMoyenne.add(Math.pow(i - moyenne, 2));
+				
+				// On calcule la somme des valeurs obtenues
+				// en additionnant a chaque fois la valeur du dernier item ajoute
+				variance += carreEcartMoyenne.get(carreEcartMoyenne.size()-1); 
+			}
+			
+			variance /= carreEcartMoyenne.size();
+			
+			// On divise par la taille de la serie
+			
+			return variance;
+		}
+
+		// Calcule l'ecart type a partir de la variance
+		public double getEcartType(ArrayList<Integer> val) {
+			return Math.sqrt(this.getVariance(val));
+		
+		}
 	
 	/* Getter and Setter */
 	public void setXY(int x, int y) {
