@@ -12,7 +12,7 @@ public class Play {
 	public static final int SIZE = 40;
 
 	// Variable temporaire globale TODO (Reflechir a la virer)
-	private Agents Ag;
+
 	private int[] resultat = new int[4];
 	private boolean[][] resultatSimulation = new boolean[10][3];
 	// Liste des agents presents dans notre matrice (Necessaire pour gerer les
