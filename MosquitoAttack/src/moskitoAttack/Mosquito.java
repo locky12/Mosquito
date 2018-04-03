@@ -2,8 +2,11 @@ package moskitoAttack;
 
 public class Mosquito extends Agents {
 
-	private static final int MAX_VIE = 30;
-	private int jourVie = 0;
+	private static final int 	MAX_VIE = 30;
+	private static final int AGE_MIN_N = 4;
+	private int 				jourVie = 0;
+	
+	private static final double CHANCE_N = 0.80;
 
 	/* Constructeur de depart */
 	public Mosquito() {
@@ -72,7 +75,7 @@ public class Mosquito extends Agents {
 	public boolean naissance(Agents agent) {
 		double chance = rand.nextDouble();
 		if (chance > 0.50 && agent.estFille == false && this.aBebe == false
-				&& agent.getClass().getName() == CLASSE_MOSQUITO && this.jourVie > 4) {
+				&& agent.getClass().getName() == CLASSE_MOSQUITO && this.jourVie > AGE_MIN_N) {
 			System.out.println("un moustique est nee");
 			compteNaissanceMoustique ();
 			this.aBebe = true;

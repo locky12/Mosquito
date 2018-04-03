@@ -6,21 +6,21 @@ import java.util.Scanner;
 public class Play {
 
 	// Matrice representant notre experience
-	private Agents[][] matrix;
+	private Agents[][] 			matrix;
 
 	// Dimension de notre matrice de cases
-	public static final int SIZE = 40;
+	public static final int 	SIZE 				= 40;
 
 	// Variable temporaire globale TODO (Reflechir a la virer)
 
-	private int[] resultat = new int[4];
-	private boolean[][] resultatSimulation = new boolean[10][3];
+	private int[] 				resultat 			= new int[4];
+	private boolean[][] 		resultatSimulation 	= new boolean[10][3];
 	// Liste des agents presents dans notre matrice (Necessaire pour gerer les
 	// deplacements)
-	private ArrayList<Agents> nextList = new ArrayList<Agents>();
+	private ArrayList<Agents> 	nextList 			= new ArrayList<Agents>();
 
 	// Instance globale de notre MersenneTwister pour notre classe
-	private MersenneTwister rand = new MersenneTwister();
+	private MersenneTwister rand 					= new MersenneTwister();
 
 	/*******************************************************************
 	 * Constructeur de notre instance Play Initialise un tableau d'agents vide et de

@@ -4,11 +4,11 @@ package moskitoAttack;
 import java.util.ArrayList;
 
 public abstract class Agents {
-	public static final int SIZE = 40;
-	protected static final String CLASSE_MOSQUITO = moskitoAttack.Mosquito.class.getName();
-	protected static final String CLASSE_HUMAIN = moskitoAttack.Humain.class.getName();
+	public static final int 		SIZE 			= 40;
+	protected static final String 	CLASSE_MOSQUITO = moskitoAttack.Mosquito.class.getName();
+	protected static final String 	CLASSE_HUMAIN 	= moskitoAttack.Humain.class.getName();
 
-	public static MersenneTwister rand = new MersenneTwister();
+	public static MersenneTwister 	rand 		= new MersenneTwister();
 
 	// Position actuelle
 	protected int x;
@@ -19,32 +19,32 @@ public abstract class Agents {
 	protected int copyY;
 
 	// Variable de comportement;
-	protected boolean estFille = false;
-	protected boolean infecte = false;
-	protected boolean estMort = false;
-	protected boolean aBebe = false;
+	protected boolean 			estFille 		= false;
+	protected boolean 			infecte 		= false;
+	protected boolean 			estMort 		= false;
+	protected boolean 			aBebe 			= false;
 
 	// Resultat;
-	private static final int NB_COL = 6;
-	private static final int NB_LIGNE = 10;
+	private static final int 	NB_COL 			= 6;
+	private static final int 	NB_LIGNE 		= 10;
 
 	// Contient les resultats des differents indicateurs pour chaque simulation
-	protected static int[][] matriceResultat = new int[NB_LIGNE + 3][NB_COL];
-	
+	protected static int[][] 	matriceResultat = new int[NB_LIGNE + 3][NB_COL];
+
 	// Stock le resultat des calculs statistiques a l'issue de l'experience globale
-	protected static double[][] matriceAnalyse = new double[3][NB_COL];
+	protected static double[][] matriceAnalyse 	= new double[3][NB_COL];
 	// 0 Ligne pour stocker la moyenne
 	// 1 Ligne pour stocker la variance
 	// 2 Ligne pour stocker l'ecart-type
-	
+
 	protected static int nbSimu = 0;
 	// colonne des matrices de resultat;
-	protected static final int COL_MORT_H = 0;
-	protected static final int COL_NAISSANCE_H = 1;
-	protected static final int COL_MORT_M = 2;
-	protected static final int COL_NAISSANCE_M = 3;
-	protected static final int COL_INFECTE = 4;
-	protected static final int COL_M_INFECTE = 5;
+	protected static final int COL_MORT_H 		= 0;
+	protected static final int COL_NAISSANCE_H 	= 1;
+	protected static final int COL_MORT_M 		= 2;
+	protected static final int COL_NAISSANCE_M 	= 3;
+	protected static final int COL_INFECTE 		= 4;
+	protected static final int COL_M_INFECTE 	= 5;
 
 	public static void setNbSimu(int nombre) {
 		nbSimu = nombre;
@@ -153,8 +153,10 @@ public abstract class Agents {
 
 	public static void afficheResultatMatrice() {
 
-		System.out.println("\n\n************************************************ Resultat ************************************************\n");
-		System.out.print("Simulation" + "\tH_dead\t\t" + "H_born\t\t" + "M_dead\t\t" + "M_born\t\t" + "H_infecte\t" + "M_infecte\t\n");
+		System.out.println(
+				"\n\n************************************************ Resultat ************************************************\n");
+		System.out.print("Simulation" + "\tH_dead\t\t" + "H_born\t\t" + "M_dead\t\t" + "M_born\t\t" + "H_infecte\t"
+				+ "M_infecte\t\n");
 
 		for (int i = 0; i < NB_LIGNE; i++) {
 			System.out.printf("%d)\t\t", i + 1);
@@ -168,46 +170,45 @@ public abstract class Agents {
 		// TODO afficher moyenne
 		calculMoyenne();
 		System.out.print("\nMoyenne\t\t");
-		for(int j = 0; j < NB_COL; j++) {
+		for (int j = 0; j < NB_COL; j++) {
 			System.out.printf("%.2f\t\t", matriceAnalyse[0][j]);
 		}
-		
+
 		calculVariance();
 		System.out.print("\nVariance\t");
 		for (int j = 0; j < NB_COL; j++) {
 			System.out.printf("%.2f\t\t", matriceAnalyse[1][j]);
 		}
-		
+
 		// TODO
-//		calculEcartType();
-//		System.out.print("\EcartType\t");
-//		for (int j = 0; j < NB_COL; j++) {
-//			System.out.printf("%.2f\t\t", matriceAnalyse[2][j]);
-//		}
+		// calculEcartType();
+		// System.out.print("\EcartType\t");
+		// for (int j = 0; j < NB_COL; j++) {
+		// System.out.printf("%.2f\t\t", matriceAnalyse[2][j]);
+		// }
 	}
 
-	
 	// Calcule la moyenne de chaque indicateur sur l'ensemble des simulations
 	public static void calculMoyenne() {
-		double moyenne		= 0;
-		for(int x = 0; x < NB_COL; x++) {
-			for (int i = 0; i < NB_LIGNE; i++) {	// Parcours du resultat de chaque simulation
-				moyenne += matriceResultat[i][x] ;
+		double moyenne = 0;
+		for (int x = 0; x < NB_COL; x++) {
+			for (int i = 0; i < NB_LIGNE; i++) { // Parcours du resultat de chaque simulation
+				moyenne += matriceResultat[i][x];
 			}
 
 			moyenne /= NB_LIGNE;
 			matriceAnalyse[0][x] = moyenne;
 		}
 	}
-	
+
 	// Calcule la variance (CalculMoyenne() necessaire au prealable)
 	public static void calculVariance() {
 		double variance;
 		double moyenne;
 
-		for(int x = 0; x < NB_COL; x++) {			// Parcours de chaque mesure
-			variance	= 0;
-			moyenne 	= matriceAnalyse[0][x]; 
+		for (int x = 0; x < NB_COL; x++) { // Parcours de chaque mesure
+			variance = 0;
+			moyenne = matriceAnalyse[0][x];
 
 			for (int i = 0; i < NB_LIGNE; i++) {
 				// Carre de l'ecart a la moyenne de chaque valeur
@@ -222,8 +223,8 @@ public abstract class Agents {
 
 	// Calcule l'ecart type a partir de la variance
 	public static void calculEcartType() {
-		
-		for(int x = 0; x < NB_COL; x++) {
+
+		for (int x = 0; x < NB_COL; x++) {
 			matriceAnalyse[2][x] = Math.sqrt(matriceAnalyse[1][x]);
 		}
 	}
