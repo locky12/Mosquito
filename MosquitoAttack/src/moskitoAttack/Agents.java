@@ -1,10 +1,10 @@
 
 package moskitoAttack;
 
-import java.util.ArrayList;
+
 
 public abstract class Agents {
-	public static final int 		SIZE 			= 40;
+
 	protected static final String 	CLASSE_MOSQUITO = moskitoAttack.Mosquito.class.getName();
 	protected static final String 	CLASSE_HUMAIN 	= moskitoAttack.Humain.class.getName();
 
@@ -58,8 +58,8 @@ public abstract class Agents {
 
 	/* Constructeur */
 	public Agents() {
-		this.x = generatorPosition(0, SIZE);
-		this.y = generatorPosition(0, SIZE);
+		this.x = generatorPosition(0, Play.SIZE);
+		this.y = generatorPosition(0, Play.SIZE);
 		this.estFille = rand.nextBoolean();
 	}
 
@@ -88,8 +88,8 @@ public abstract class Agents {
 		int newX = generatorPosition(this.x + 2, this.x - 2);
 		int newY = generatorPosition(this.y + 2, this.y - 2);
 
-		this.x = (SIZE + newX) % SIZE;
-		this.y = (SIZE + newY) % SIZE;
+		this.x = (Play.SIZE + newX) % Play.SIZE;
+		this.y = (Play.SIZE + newY) % Play.SIZE;
 	}
 
 	/*******************************************************************
@@ -180,12 +180,12 @@ public abstract class Agents {
 			System.out.printf("%.2f\t\t", matriceAnalyse[1][j]);
 		}
 
-		// TODO
-		// calculEcartType();
-		// System.out.print("\EcartType\t");
-		// for (int j = 0; j < NB_COL; j++) {
-		// System.out.printf("%.2f\t\t", matriceAnalyse[2][j]);
-		// }
+		 
+		 calculIntervalConfiance();
+		 System.out.print("\nIntervalConfiance\t");
+		 for (int j = 0; j < NB_COL; j++) {
+		 System.out.printf("%.2f\t\t", matriceAnalyse[2][j]);
+		 }
 	}
 
 	// Calcule la moyenne de chaque indicateur sur l'ensemble des simulations
@@ -216,7 +216,7 @@ public abstract class Agents {
 				variance += Math.pow(matriceResultat[i][x] - moyenne, 2);
 			}
 
-			variance /= NB_LIGNE;
+			variance /= (NB_LIGNE - 1);
 			matriceAnalyse[1][x] = variance;
 		}
 	}
@@ -227,6 +227,15 @@ public abstract class Agents {
 		for (int x = 0; x < NB_COL; x++) {
 			matriceAnalyse[2][x] = Math.sqrt(matriceAnalyse[1][x]);
 		}
+	}
+	
+	
+	public static void calculIntervalConfiance () {
+
+		for (int x = 0; x < NB_COL; x++) {
+			matriceAnalyse[2][x] = 2.228 * Math.sqrt((matriceAnalyse[1][x]/NB_LIGNE));
+		}	
+		
 	}
 
 	/* Getter and Setter */

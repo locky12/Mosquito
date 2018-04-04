@@ -9,14 +9,15 @@ public class Play {
 	private Agents[][] 			matrix;
 
 	// Dimension de notre matrice de cases
-	public static final int 	SIZE 				= 40;
-
-	// Variable temporaire globale TODO (Reflechir a la virer)
+	public static final int 	SIZE 				= 20 ;
+	public static final int 	NB_AGENTS_DEPART  	= 30 ;
+	private static final int 	TEMPS 				= 1;
+	private static final int 	NB_SIMU				= 10 ;
+	
 
 	private int[] 				resultat 			= new int[4];
 	private boolean[][] 		resultatSimulation 	= new boolean[10][3];
-	// Liste des agents presents dans notre matrice (Necessaire pour gerer les
-	// deplacements)
+	// Liste des agents presents dans notre matrice.
 	private ArrayList<Agents> 	nextList 			= new ArrayList<Agents>();
 
 	// Instance globale de notre MersenneTwister pour notre classe
@@ -37,45 +38,22 @@ public class Play {
 
 	/************ Methodes ************/
 
-	/*
-	 * TODO : methode pour test penser a supprimer **********************
-	 * *****************************************************************
-	 */
 
-	public void initArray() {
-		// Mosquito mosquito = new Mosquito();
-		// mosquito.setEstFille(true);
-		// mosquito.setInfecte(true);
-		// Mosquito mosquito2 = new Mosquito();
-		// mosquito2.setEstFille(false);
-		// Humain humain = new Humain ();
-		// humain.setEstFille(true);
-		Humain humain2 = new Humain();
-		humain2.setEstFille(false);
-		// next.add(mosquito);
-		// next.add(mosquito2);
-		// next.add(humain);
-		nextList.add(humain2);
-	}
-
-	/***************************************************************/
 
 	/* Methode principal */
 	public void jouer() {
 		int nombreSimu = 0;
 
 		int compteBoucle = 0;
-		Scanner scan = new Scanner(System.in);
+	
 		// initArray();
 
-		while (nombreSimu < 10) {
+		while (nombreSimu < NB_SIMU) {
 			System.out.println("***********************nouvelle simulation*******************************");
 			Agents.setNbSimu(nombreSimu);
 			boolean arret = false;
 			reInitMatrix();
 			initAleaMat();
-			int saisie = 1;
-			int compte = 0;
 			compteBoucle = 0;
 			while (arret != true) {
 
@@ -83,21 +61,18 @@ public class Play {
 				parcoursMatrice();
 
 				System.out.println("Nombre de tour de boucle : " + compteBoucle);
-				System.out.println(this);
+				System.out.println(this); // affiche la matrice
 				try {
-					Thread.sleep(1);
+					Thread.sleep(TEMPS);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				// System.out.println("suivant ?");
-				// saisie = scan.nextInt();
 				arret = testArretSimulation(nombreSimu);
 				initResultat();
 			}
-
 			nombreSimu++;
 		}
-		MatriceRSimu();
+		MatriceRSimu();// 
 	}
 
 	// vide la matrice au debut de chaque simulation
@@ -108,7 +83,7 @@ public class Play {
 			}
 		}
 	}
-
+	// test d'arret de la simulation 
 	private boolean testArretSimulation(int nombreSimu) {
 		System.out.println("nombre simu : " + nombreSimu);
 		if (resultat[0] == 0) {
@@ -124,11 +99,11 @@ public class Play {
 		}
 		if (resultat[1] == 0 && resultat[3] == 0) {
 			resultatSimulation[nombreSimu][2] = true;
-			// return true;
+			 return true;
 		}
 		return false;
 	}
-
+	// compte les agents par espece et infecte nn infecte 
 	private void resultat(Agents agent) {
 
 		if (agent.getClass().getName() == Agents.getClasseHumain()) {
@@ -144,13 +119,13 @@ public class Play {
 			}
 		}
 	}
-
+	// initialise le tableau resultat a 0
 	private void initResultat() {
 		for (int i = 0; i < resultat.length; i++) {
 			resultat[i] = 0;
 		}
 	}
-
+	// affiche le tableau de resultat
 	private void afficheResultat() {
 		for (int i = 0; i < resultat.length; i++) {
 			switch (i) {
@@ -245,7 +220,7 @@ public class Play {
 			}
 			if (agent.getClass().getName() == Agents.getClasseMosquito()) {
 				if (agent.naissance(voisin) == true) {
-					// generateBabyMosquito (agent);
+					
 					nextList.add(new Mosquito(agent.getX(), agent.getY(), false));
 				}
 				agent.contagion(voisin);
@@ -253,16 +228,7 @@ public class Play {
 		}
 	}
 
-	// pas sur que j'utilise
-	private void generateBabyMosquito(Agents agent) {
-		int min = 2, max = 3;
-		double nombreBaby = rand.nextDouble() * (max - min + 1);
-		System.out.println("nombre de bebe : " + (int) nombreBaby);
-		for (int i = 0; i < (int) nombreBaby; i++) {
-			nextList.add(new Mosquito(agent.getX(), agent.getY(), false));
-		}
-
-	}
+	
 
 	// verifie si la position d'un agent et libre sinon on la change est on
 	// reverifie: le changement ressemble a un saute moutons :)
@@ -301,18 +267,13 @@ public class Play {
 		}
 	}
 
-	// affiche la liste : pour debuger
-	private void affichelist() {
-		for (Agents i : nextList) {
-			System.out.println("i : " + i.getX() + "j : " + i.getY());
-		}
-	}
+	
 
 	// genere la population au debut : je changerai surement pour la presentation
 	// pour avoir un comportement ""parfait""
 	public void initAleaMat() {
 		double alea = 0.;
-		for (int i = 0; i < 70; i++) {
+		for (int i = 0; i < 30; i++) {
 			alea = rand.nextDouble();
 
 			if (alea > 0.4) {
@@ -355,13 +316,5 @@ public class Play {
 		}
 	}
 
-	// methode que j'ai jamais reussi a me servir tout est dans le nom
-	public void addListNext(Agents agent) {
-		nextList.add(agent);
-	}
 
-	// methode que j'ai jamais reussi a me servir tout est dans le nom
-	public void concateneList(ArrayList<Agents> naissanceList) {
-		nextList.addAll(naissanceList);
-	}
 }

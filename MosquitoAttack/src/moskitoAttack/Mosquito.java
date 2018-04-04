@@ -2,11 +2,12 @@ package moskitoAttack;
 
 public class Mosquito extends Agents {
 
-	private static final int 	MAX_VIE = 30;
-	private static final int AGE_MIN_N = 4;
-	private int 				jourVie = 0;
+	private static final int 	MAX_VIE 	= 30;
+	private static final int 	AGE_MIN_N 	= 4;
 	
-	private static final double CHANCE_N = 0.80;
+	private int 				jourVie     = 0;
+	
+	
 
 	/* Constructeur de depart */
 	public Mosquito() {
@@ -27,25 +28,27 @@ public class Mosquito extends Agents {
 	public void contagion(Agents agent) {
 		if (agent.getClass().getName() == CLASSE_HUMAIN && this.estMort == false) {
 			double chance = rand.nextDouble();
-			// un moustique infecte pique un humain infecte
-			if (agent.infecte == false && chance > 0.90) {
+			
+			System.out.println("chance  : "+ chance );	
+			
+			if (agent.infecte == false && this.infecte == true && chance < 0.93) {
 				System.out.println("un humain a infecte un moustique");
 				agent.infecte = true;
 				compteInfecteParMoustique();
-			} else if (agent.infecte == false && chance > 0.90 && chance < 0.95) {
+			} else if (agent.infecte == false && this.infecte == true &&chance > 0.93 && chance < 0.95) {
 				System.out.println("Un moustique c'est fait ecraser par un humain");
 				this.estMort = true;
-			} else if (agent.infecte == false && chance > 0.95) {
+			} else if (agent.infecte == false && this.infecte == true && chance > 0.95) {
 				this.estMort = true;
 				agent.infecte = true;
 				compteInfecteParMoustique();
 			}
 			// Moustique non infecte pique un humain infecte
-			if (agent.infecte == true && chance < 0.80) {
-				System.out.println("un moustique a un infecte un humain");
+			if (agent.infecte == true && this.infecte == false && chance < 0.90) {
+				System.out.println("Un moustique a infecte un humain");
 				compteMoustiqueParHumain();
 				this.infecte = true;
-			} else if (agent.infecte == true && chance > 0.80) {
+			} else if (agent.infecte == true && chance > 0.90) {
 				this.estMort = true;
 				System.out.println("Un moustique c'est fait ecraser par un humain");
 			}

@@ -3,7 +3,7 @@ package moskitoAttack;
 public class Humain extends Agents {
 	
 	private int nbJourInfecte = 0;
-	private static final int MAX_JOUR_INFECTE = 25;
+	private static final int MAX_JOUR_INFECTE = 30;
 	
 	/*Constructeur */
 	public Humain () {
@@ -21,7 +21,7 @@ public class Humain extends Agents {
 		double comportement = rand.nextDouble();
 		if (this.infecte == true) {
 			this.nbJourInfecte++;
-			if (comportement < 0.1) {
+			if (comportement < 0.15) {
 				mortAgent(array);
 				System.out.println("un humain est mort");
 					return true;
@@ -42,15 +42,12 @@ public class Humain extends Agents {
 	public boolean naissance(Agents agent) {
 		
 		double chance = rand.nextDouble();
-		System.out.println("chance : " + chance);
-		//System.out.println("agent : "+ this + " |voisin : " + agent);
-		if (chance > 0.90 && agent.estFille == false && this.aBebe == false && agent.getClass().getName() == CLASSE_HUMAIN) {
+		
+		if (chance > 0.95 && agent.estFille == false && this.aBebe == false && agent.getClass().getName() == CLASSE_HUMAIN) {
 			System.out.println("Un humain est nee");
 			compteNaissanceHumain ();
 			this.aBebe = true;
 			return true;
-			
-			//play.addListNext(new Humain ());
 		}
 		return false;
 	}
