@@ -43,7 +43,7 @@ public class Humain extends Agents {
 		
 		double chance = rand.nextDouble();
 		
-		if (chance > 0.95 && agent.estFille == false && this.aBebe == false && agent.getClass().getName() == CLASSE_HUMAIN) {
+		if (chance > 0.95 && agent.fille == false && this.aBebe == false && agent.getClass().getName() == CLASSE_HUMAIN) {
 			System.out.println("Un humain est nee");
 			compteNaissanceHumain ();
 			this.aBebe = true;
@@ -70,7 +70,7 @@ public class Humain extends Agents {
 /* *****************ToString ********************/
 	@Override
 	public String toString () {
-		if (this.estFille == true) { 
+		if (this.fille == true) { 
 			if (this.infecte == true) {
 				return "G";
 			}

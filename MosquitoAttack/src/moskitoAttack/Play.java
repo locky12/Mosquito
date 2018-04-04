@@ -114,7 +114,7 @@ public class Play {
 		}
 		if (agent.getClass().getName() == Agents.getClasseMosquito()) {
 			resultat[2] += 1;
-			if (agent.infecte == true && agent.isEstFille() == true) {
+			if (agent.infecte == true && agent.isFille() == true) {
 				resultat[3] += 1;
 			}
 		}
@@ -160,12 +160,12 @@ public class Play {
 
 						chercheVoisins(matrix[i][j]);
 
-						if (matrix[i][j].isEstMort() == false) {
+						if (matrix[i][j].isMort() == false) {
 							matrix[i][j].setaBebe(false);
 							addListe(matrix[i][j]);
 
 						} else {
-							if (matrix[i][j].isEstMort() == true) {
+							if (matrix[i][j].isMort() == true) {
 								matrix[i][j].mortAgent(matrix);
 							}
 
@@ -200,7 +200,7 @@ public class Play {
 					comportementAgents(agent, matrix[x][y]);
 				}
 				if (agent.getClass().getName() == Agents.getClasseMosquito() && nombreVoisin > 4) {
-					agent.setEstMort(true);
+					agent.setMort(true);
 				}
 
 			}
@@ -212,8 +212,8 @@ public class Play {
 	// moustique la je n'ai pas reussi a ajouter a
 	// la liste depuis d'autre class sans : nullexeption pointer
 	private void comportementAgents(Agents agent, Agents voisin) {
-		if (agent.isEstFille() == true && agent.isEstMort() == false) {
-			if (voisin.isEstFille() == false && agent.getClass().getName() == Agents.getClasseHumain()) {
+		if (agent.isFille() == true && agent.isMort() == false) {
+			if (voisin.isFille() == false && agent.getClass().getName() == Agents.getClasseHumain()) {
 				if (agent.naissance(voisin) == true) {
 					nextList.add(new Humain(agent.getX(), agent.getY()));
 				}
@@ -241,13 +241,13 @@ public class Play {
 			verification = 0;
 			for (Agents agentControl : nextList) {
 
-				if (agent.PositionControle(agentControl)) {
+				if (agent.hasPositionValide(agentControl)) {
 					verification++;
 
 				}
 			}
 			if (verification == (nextList.size() - 1)) {
-				if (agent.restePosition() == true) {
+				if (agent.hasPositionDifferente() == true) {
 					deplaceAgent(agent);
 				}
 			} else {
