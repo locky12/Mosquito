@@ -151,14 +151,14 @@ public abstract class Agents {
 
 		System.out.println(
 				"\n\n************************************************ Resultat ************************************************\n");
-		System.out.print("Simulation" + "\tH_dead\t\t" + "H_born\t\t" + "M_dead\t\t" + "M_born\t\t" + "H_infecte\t"
+		System.out.print("Simulation" + "\tH_dead\t\t" + "H_born\t\t" + "M_dead\t\t" + "M_born\t\t" + " H_infecte\t"
 				+ "M_infecte\t\n");
 
 		for (int i = 0; i < NB_LIGNE; i++) {
 			System.out.printf("%d)\t\t", i + 1);
 			for (int j = 0; j < NB_COL; j++) {
 
-				System.out.print("" + matriceResultat[i][j] + "\t\t ");
+				System.out.print("" + matriceResultat[i][j] + " \t\t ");
 			}
 			System.out.println("");
 		}

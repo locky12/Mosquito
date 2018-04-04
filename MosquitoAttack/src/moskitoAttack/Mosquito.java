@@ -44,7 +44,7 @@ public class Mosquito extends Agents {
 			// Moustique non infecte pique un humain infecte
 			if (agent.infecte == true && this.infecte == false && chance < 0.90) {
 				System.out.println("Un moustique a infecte un humain");
-				compteMoustiqueParHumain();
+				compteInfecteParHumain();
 				this.infecte = true;
 			} else if (agent.infecte == true && chance > 0.90) {
 				this.mort = true;
@@ -119,7 +119,7 @@ public class Mosquito extends Agents {
 		matriceResultat[nbSimu][COL_INFECTE] += 1;
 	}
 
-	private void compteMoustiqueParHumain() {
+	private void compteInfecteParHumain() {
 		matriceResultat [nbSimu][COL_M_INFECTE] += 1;
 	}
 
