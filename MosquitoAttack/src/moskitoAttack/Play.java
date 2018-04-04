@@ -5,27 +5,41 @@ import java.util.Scanner;
 
 public class Play {
 
+	/*** Attributs ***/
 	// Matrice representant notre experience
 	private Agents[][] 			matrix;
 
-	// Dimension de notre matrice de cases
-	public static final int 	SIZE 				= 20 ;
-	public static final int 	NB_AGENTS_DEPART  	= 30 ;
+	// Dimension de notre matrice
+	public static final int 	SIZE 				= 20;
+	
+	// Nombre total d'agents (Humain ou Moustique) au depart de la simulation
+	public static final int 	NB_AGENTS_DEPART  	= 30;
+	
+	// Nombre de milisecondes ecoulees entre chaque jour de simulation
+	// On peut le passer a 2000 pour debuguer par exemple
 	private static final int 	TEMPS 				= 1;
-	private static final int 	NB_SIMU				= 10 ;
+	
+	// Nombre de simulations souhaite
+	private static final int 	NB_SIMU				= 10;
 	
 
+	// Affiche les statistiques a l'issue de la journee simulee
 	private int[] 				resultat 			= new int[4];
+	
+	// Tableau qui gere si les indicateurs de chaque simulation sont nuls ou pas
 	private boolean[][] 		resultatSimulation 	= new boolean[10][3];
-	// Liste des agents presents dans notre matrice.
+	
+	// Liste des agents presents dans notre matrice
 	private ArrayList<Agents> 	nextList 			= new ArrayList<Agents>();
 
 	// Instance globale de notre MersenneTwister pour notre classe
 	private MersenneTwister rand 					= new MersenneTwister();
 
+	
+	/*** Constructeur ***/
 	/*******************************************************************
-	 * Constructeur de notre instance Play Initialise un tableau d'agents vide et de
-	 * dimension 'SIZE'
+	 * Constructeur de notre instance Play
+	 * Initialise un tableau d'agents vide avec une dimension 'SIZE'
 	 ********************************************************************/
 	public Play() {
 		matrix = new Agents[SIZE][SIZE];
@@ -36,18 +50,16 @@ public class Play {
 		}
 	}
 
-	/************ Methodes ************/
-
-
-
-	/* Methode principal */
+	/*** Methodes ***/
+	/*******************************************************************
+	 * jouer:			Methode principale qui appelle toutes les autres
+	 * 					et gere l'ensemble des simulations
+	 *******************************************************************/
 	public void jouer() {
 		int nombreSimu = 0;
 
 		int compteBoucle = 0;
 	
-		// initArray();
-
 		while (nombreSimu < NB_SIMU) {
 			System.out.println("***********************nouvelle simulation*******************************");
 			Agents.setNbSimu(nombreSimu);
@@ -72,10 +84,10 @@ public class Play {
 			}
 			nombreSimu++;
 		}
-		MatriceRSimu();// 
+		MatriceRSimu();
 	}
 
-	// vide la matrice au debut de chaque simulation
+	/* vide la matrice au debut de chaque simulation */
 	private void reInitMatrix() {
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
@@ -83,7 +95,13 @@ public class Play {
 			}
 		}
 	}
-	// test d'arret de la simulation 
+	
+	/*******************************************************************
+	 * @param nombreSimu:	Numero actuel de la simulation
+	 * 
+	 * @return	True si un des indicateur de 'resultatSimulation' = True
+	 * 			False sinon	
+	 *******************************************************************/ 
 	private boolean testArretSimulation(int nombreSimu) {
 		System.out.println("nombre simu : " + nombreSimu);
 		if (resultat[0] == 0) {
@@ -91,7 +109,6 @@ public class Play {
 
 			resultatSimulation[nombreSimu][0] = true;
 			return true;
-
 		}
 		if (resultat[2] == 0) {
 			resultatSimulation[nombreSimu][1] = true;
@@ -103,22 +120,30 @@ public class Play {
 		}
 		return false;
 	}
-	// compte les agents par espece et infecte nn infecte 
+	
+	/*******************************************************************
+	 * resultat:	Analyse si l'agent est un Humain ou un Moustique,
+	 * 				s'il est infecte ou non
+	 * 				et incremente les indicateurs associes en consquence
+	 * 
+	 * @param agent:	Agent dont on recupere les indicateurs
+	 *******************************************************************/
 	private void resultat(Agents agent) {
 
 		if (agent.getClass().getName() == Agents.getClasseHumain()) {
-			resultat[0] += 1;
+			resultat[0] ++;
 			if (agent.infecte == true) {
-				resultat[1] += 1;
+				resultat[1] ++;
 			}
 		}
 		if (agent.getClass().getName() == Agents.getClasseMosquito()) {
-			resultat[2] += 1;
+			resultat[2] ++;
 			if (agent.infecte == true && agent.isFille() == true) {
-				resultat[3] += 1;
+				resultat[3] ++;
 			}
 		}
 	}
+	
 	// initialise le tableau resultat a 0
 	private void initResultat() {
 		for (int i = 0; i < resultat.length; i++) {
