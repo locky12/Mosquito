@@ -4,10 +4,10 @@ public class Humain extends Agents {
 	
 	/*** Attributs ***/
 	// Compteur du nombre de jours depuis l'infection de l'humain
-	private int nbJourInfecte 					= 0;
+	private int 				nbJourInfecte 		= 0;
 	
 	// Limite du nombre de jours avant la guerison de l'humain
-	private static final int MAX_JOUR_INFECTE 	= 30;
+	private static final int 	MAX_JOUR_INFECTE 	= 30;
 	
 	/*** Constructeurs ***/
 	public Humain () {

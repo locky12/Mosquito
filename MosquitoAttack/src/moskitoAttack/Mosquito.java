@@ -2,12 +2,17 @@ package moskitoAttack;
 
 public class Mosquito extends Agents {
 
+	/*** Attributs ***/
+	// Duree de vie maximale
 	private static final int 	MAX_VIE 	= 30;
+	
+	// Age minimum pour se reproduire
 	private static final int 	AGE_MIN_N 	= 4;
 	
+	// Compteur du nombre de jours vecus
 	private int 				jourVie     = 0;
 	
-
+	/*** Constructeurs ***/
 	/* Constructeur de depart */
 	public Mosquito() {
 		super();
@@ -21,8 +26,16 @@ public class Mosquito extends Agents {
 
 	}
 
-	/******** Methodes *********/
-
+	/*** Methodes ***/
+	/*******************************************************************
+	 * contagion:		Gere les evenements possibles lors d'une 
+	 * 					tentative de contagion d'un 'agent':
+	 * 					Le moustique peut etre tue
+	 * 					Le moustique peut infecter l'humain s'il l'est
+	 * 					Le moustique peut etre infecte si l'humain l'est
+	 * 
+	 * @param agent:	Agent en proie a une contagion par le moustique
+	 *******************************************************************/
 	public void contagion(Agents agent) {
 		if (agent.getClass().getName() == CLASSE_HUMAIN && this.mort == false) {
 			double chance = rand.nextDouble();
@@ -50,7 +63,6 @@ public class Mosquito extends Agents {
 				this.mort = true;
 				System.out.println("Un moustique s'est fait tuer par un humain");
 			}
-
 		}
 	}
 	
