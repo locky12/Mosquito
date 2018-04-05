@@ -26,10 +26,10 @@ public abstract class Agents {
 	private static final int		NB_LIGNE 			= 10;
 
 	// Contient les resultats des differents indicateurs pour chaque simulation
-	protected static int[][]		matriceResultat		= new int[NB_LIGNE + 3][NB_COL];
+	protected static int[][]		MATRICE_RESULTAT	= new int[NB_LIGNE][NB_COL];
 
 	// Stock le resultat des calculs statistiques a l'issue de l'experience globale
-	protected static double[][]		matriceAnalyse		= new double[4][NB_COL];
+	protected static double[][]		MATRICE_ANALYSE		= new double[4][NB_COL];
 	// 0 Ligne pour stocker la moyenne
 	// 1 Ligne pour stocker la variance
 	// 2 Ligne pour stocker l'ecart-type
@@ -136,8 +136,8 @@ public abstract class Agents {
 
 	/**
 	 * Affiche: 
-	 * 	'matriceResultat' contenant les valeurs des indicateurs de notre simulation
-	 * 	'matriceAnalyse'  contenant les analyses statistiques sur ces indicateurs
+	 * 	'MATRICE_RESULTAT' contenant les valeurs des indicateurs de notre simulation
+	 * 	'MATRICE_ANALYSE'  contenant les analyses statistiques sur ces indicateurs
 	 */
 	public static void afficheResultatMatrice() {
 
@@ -150,7 +150,7 @@ public abstract class Agents {
 			System.out.printf("%d)\t\t", i + 1);
 			for (int j = 0; j < NB_COL; j++) {
 
-				System.out.print("" + matriceResultat[i][j] + " \t\t ");
+				System.out.print("" + MATRICE_RESULTAT[i][j] + " \t\t ");
 			}
 			System.out.println("");
 		}
@@ -158,20 +158,20 @@ public abstract class Agents {
 		calculMoyenne();
 		System.out.print("\nMoyenne\t\t");
 		for (int j = 0; j < NB_COL; j++) {
-			System.out.printf("%.2f\t\t", matriceAnalyse[0][j]);
+			System.out.printf("%.2f\t\t", MATRICE_ANALYSE[0][j]);
 		}
 
 		calculVariance();
 		calculEcartType();
 		System.out.print("\nEcart Type\t");
 		for (int j = 0; j < NB_COL; j++) {
-			System.out.printf("%.2f\t\t", matriceAnalyse[2][j]);
+			System.out.printf("%.2f\t\t", MATRICE_ANALYSE[2][j]);
 		}
 
 		calculIntervalleConfiance();
 		System.out.print("\nIntervConfiance\t");
 		for (int j = 0; j < NB_COL; j++) {
-			System.out.printf("%.2f\t\t", matriceAnalyse[3][j]);
+			System.out.printf("%.2f\t\t", MATRICE_ANALYSE[3][j]);
 		}
 	}
 
@@ -184,11 +184,11 @@ public abstract class Agents {
 			// Reinitialisation de la moyenne pour la colonne suivante
 			moyenne	= 0;
 			for (int i = 0; i < NB_LIGNE; i++) { // Parcours du resultat de chaque simulation
-				moyenne += matriceResultat[i][x];
+				moyenne += MATRICE_RESULTAT[i][x];
 			}
 
 			moyenne /= NB_LIGNE;
-			matriceAnalyse[0][x] = moyenne;
+			MATRICE_ANALYSE[0][x] = moyenne;
 		}
 	}
 
@@ -199,23 +199,23 @@ public abstract class Agents {
 
 		for (int x = 0; x < NB_COL; x++) { // Parcours de chaque mesure
 			variance	= 0;
-			moyenne	= matriceAnalyse[0][x];
+			moyenne	= MATRICE_ANALYSE[0][x];
 
 			for (int i = 0; i < NB_LIGNE; i++) {
 				// Carre de l'ecart a la moyenne de chaque valeur
 				// On calcule la somme des valeurs obtenues
-				variance += Math.pow(matriceResultat[i][x] - moyenne, 2);
+				variance += Math.pow(MATRICE_RESULTAT[i][x] - moyenne, 2);
 			}
 
 			variance /= (NB_LIGNE - 1);
-			matriceAnalyse[1][x] = variance;
+			MATRICE_ANALYSE[1][x] = variance;
 		}
 	}
 
 	/* Calcule l'ecart type a partir de la variance */
 	public static void calculEcartType() {
 		for (int x = 0; x < NB_COL; x++) {
-			matriceAnalyse[2][x] = Math.sqrt(matriceAnalyse[1][x]);
+			MATRICE_ANALYSE[2][x] = Math.sqrt(MATRICE_ANALYSE[1][x]);
 		}
 	}
 
@@ -223,7 +223,7 @@ public abstract class Agents {
 	public static void calculIntervalleConfiance () {
 
 		for (int x = 0; x < NB_COL; x++) {
-			matriceAnalyse[3][x] = 2.228 * Math.sqrt((matriceAnalyse[1][x]/NB_LIGNE));
+			MATRICE_ANALYSE[3][x] = 2.228 * Math.sqrt((MATRICE_ANALYSE[1][x]/NB_LIGNE));
 		}	
 
 	}

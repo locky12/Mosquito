@@ -28,7 +28,8 @@ public class Play {
 	// [1]		= Nombre d'humains infectes
 	// [2]		= Nombre de moustiques vivants
 	// [3]		= Nombre de moustiques infectes
-	private int[] 				resultat 			= new int[4];
+	// [4]		= Nombre de jours ecoules pour cette simulation
+	private int[] 				resultat 			= new int[5];
 
 	// Tableau qui stock quel indicateur a mis fin a la simulation x
 	// [x][0]	= false s'il reste des humains
@@ -41,6 +42,7 @@ public class Play {
 
 	// Instance globale de notre MersenneTwister pour notre classe
 	private MersenneTwister 	rand 				= new MersenneTwister();
+	
 
 	/*** Constructeur ***/
 	/*******************************************************************

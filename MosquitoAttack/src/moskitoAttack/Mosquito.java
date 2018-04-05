@@ -119,20 +119,20 @@ public class Mosquito extends Agents {
 	
 	/* Compte le nombre de mort humain */
 	private void compteMortMoustique() {
-		matriceResultat[nbSimu][COL_MORT_M] += 1;
+		MATRICE_RESULTAT[nbSimu][COL_MORT_M] += 1;
 	}
 
 	/* Compte le nombre de naissances */
 	private void compteNaissanceMoustique() {
-		matriceResultat [nbSimu][COL_NAISSANCE_M] += 1;
+		MATRICE_RESULTAT [nbSimu][COL_NAISSANCE_M] += 1;
 	}
 
 	private void compteInfecteParMoustique() {
-		matriceResultat[nbSimu][COL_INFECTE] += 1;
+		MATRICE_RESULTAT[nbSimu][COL_INFECTE] += 1;
 	}
 
 	private void compteInfecteParHumain() {
-		matriceResultat [nbSimu][COL_M_INFECTE] += 1;
+		MATRICE_RESULTAT [nbSimu][COL_M_INFECTE] += 1;
 	}
 
 	@Override

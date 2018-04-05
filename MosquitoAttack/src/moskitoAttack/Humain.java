@@ -80,11 +80,11 @@ public class Humain extends Agents {
 	
 	/*** Methodes statistiques ***/
 	private void compteMortHumain () {
-		matriceResultat [nbSimu][COL_MORT_H] += 1;
+		MATRICE_RESULTAT [nbSimu][COL_MORT_H] += 1;
 	}
 	//compte le nombre de naissance 
 	private void compteNaissanceHumain () {
-		matriceResultat [nbSimu][COL_NAISSANCE_H] += 1;
+		MATRICE_RESULTAT [nbSimu][COL_NAISSANCE_H] += 1;
 	}
 	
 	@Override
