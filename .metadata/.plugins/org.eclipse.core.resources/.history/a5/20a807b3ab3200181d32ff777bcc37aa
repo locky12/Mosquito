@@ -1,5 +1,0 @@
-package moskitoAttack;
-
-public class Random {
-	public static MersenneTwister rand = new MersenneTwister();
-}

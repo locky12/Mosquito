@@ -2,13 +2,17 @@ package moskitoAttack;
 
 public class Mosquito extends Agents {
 
+	/*** Attributs ***/
+	// Duree de vie maximale
 	private static final int 	MAX_VIE 	= 30;
+	
+	// Age minimum pour se reproduire
 	private static final int 	AGE_MIN_N 	= 4;
 	
+	// Compteur du nombre de jours vecus
 	private int 				jourVie     = 0;
 	
-	
-
+	/*** Constructeurs ***/
 	/* Constructeur de depart */
 	public Mosquito() {
 		super();
@@ -22,11 +26,18 @@ public class Mosquito extends Agents {
 
 	}
 
-	/******** Methodes *********/
-
-	@Override
+	/*** Methodes ***/
+	/*******************************************************************
+	 * contagion:		Gere les evenements possibles lors d'une 
+	 * 					tentative de contagion d'un 'agent':
+	 * 					Le moustique peut etre tue
+	 * 					Le moustique peut infecter l'humain s'il l'est
+	 * 					Le moustique peut etre infecte si l'humain l'est
+	 * 
+	 * @param agent:	Agent en proie a une contagion par le moustique
+	 *******************************************************************/
 	public void contagion(Agents agent) {
-		if (agent.getClass().getName() == CLASSE_HUMAIN && this.estMort == false) {
+		if (agent.getClass().getName() == CLASSE_HUMAIN && this.mort == false) {
 			double chance = rand.nextDouble();
 			
 			System.out.println("chance  : "+ chance );	
@@ -36,33 +47,45 @@ public class Mosquito extends Agents {
 				agent.infecte = true;
 				compteInfecteParMoustique();
 			} else if (agent.infecte == false && this.infecte == true &&chance > 0.93 && chance < 0.95) {
-				System.out.println("Un moustique c'est fait ecraser par un humain");
-				this.estMort = true;
+				System.out.println("Un moustique s'est fait tuer par un humain");
+				this.mort = true;
 			} else if (agent.infecte == false && this.infecte == true && chance > 0.95) {
-				this.estMort = true;
+				this.mort = true;
 				agent.infecte = true;
 				compteInfecteParMoustique();
 			}
 			// Moustique non infecte pique un humain infecte
 			if (agent.infecte == true && this.infecte == false && chance < 0.90) {
 				System.out.println("Un moustique a infecte un humain");
-				compteMoustiqueParHumain();
+				compteInfecteParHumain();
 				this.infecte = true;
 			} else if (agent.infecte == true && chance > 0.90) {
-				this.estMort = true;
-				System.out.println("Un moustique c'est fait ecraser par un humain");
+				this.mort = true;
+				System.out.println("Un moustique s'est fait tuer par un humain");
 			}
-
 		}
 	}
 	
 	@Override
+	/*******************************************************************
+	 * mortAgent:		Supprime l'agent de la liste des agents 'array'
+	 * 					Et incrementre le nombre de deces de son espece
+	 * 
+	 * @param array:	Liste des agents present dans la matrice
+	 *******************************************************************/
 	public void mortAgent (Agents[][] array) {
 		array[this.getX()][this.getY()] = null;
 		compteMortMoustique();
 	}
 	
 	@Override
+	/*******************************************************************
+	 * killAgent:		Incremente le nombre de jours vecu par l'agent
+	 * 					Si ce nombre atteint la limite fixee, il meurt
+	 * 
+	 * @param array:	Liste des agents present dans la matrice
+	 * @return 			True si l'agent meurt, false sinon
+	 *******************************************************************/
 	public boolean killAgent(Agents[][] array) {
 		this.jourVie++;
 		if (this.jourVie == MAX_VIE) {
@@ -75,9 +98,14 @@ public class Mosquito extends Agents {
 	}
 
 	@Override
+	/*******************************************************************
+	 * @param agent:	Agent avec qui l'agent this tente de s'accoupler
+	 * @return 			True si l'accouplement donne une naissance,
+	 * 					False sinon
+	 *******************************************************************/
 	public boolean naissance(Agents agent) {
 		double chance = rand.nextDouble();
-		if (chance > 0.50 && agent.estFille == false && this.aBebe == false
+		if (chance > 0.50 && agent.fille == false && this.aBebe == false
 				&& agent.getClass().getName() == CLASSE_MOSQUITO && this.jourVie > AGE_MIN_N) {
 			System.out.println("un moustique est nee");
 			compteNaissanceMoustique ();
@@ -87,15 +115,14 @@ public class Mosquito extends Agents {
 		return false;
 	}
 
-	// methode de resultat pour les humains
-
-	// compte le nombre de mort humain;
-
+	/*** Methodes de comptabilisation ***/
+	
+	/* Compte le nombre de mort humain */
 	private void compteMortMoustique() {
 		matriceResultat[nbSimu][COL_MORT_M] += 1;
 	}
 
-	// compte le nombre de naissance
+	/* Compte le nombre de naissances */
 	private void compteNaissanceMoustique() {
 		matriceResultat [nbSimu][COL_NAISSANCE_M] += 1;
 	}
@@ -104,14 +131,13 @@ public class Mosquito extends Agents {
 		matriceResultat[nbSimu][COL_INFECTE] += 1;
 	}
 
-	private void compteMoustiqueParHumain() {
+	private void compteInfecteParHumain() {
 		matriceResultat [nbSimu][COL_M_INFECTE] += 1;
 	}
 
-	/*********************************************/
 	@Override
 	public String toString() {
-		if (this.estFille == true) {
+		if (this.fille == true) {
 			if (this.infecte == true) {
 				return "F";
 			} else {
@@ -121,11 +147,8 @@ public class Mosquito extends Agents {
 			return "m";
 		}
 	}
-	
-	
-	
 
-	// getter & setter
+	/* Getters ans Setters */
 	public int getJourVie() {
 		return jourVie;
 	}
@@ -133,5 +156,4 @@ public class Mosquito extends Agents {
 	public void setJourVie(int jourVie) {
 		this.jourVie = jourVie;
 	}
-
 }

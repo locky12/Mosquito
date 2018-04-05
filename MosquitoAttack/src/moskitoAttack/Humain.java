@@ -2,21 +2,33 @@ package moskitoAttack;
 
 public class Humain extends Agents {
 	
-	private int nbJourInfecte = 0;
-	private static final int MAX_JOUR_INFECTE = 30;
+	/*** Attributs ***/
+	// Compteur du nombre de jours depuis l'infection de l'humain
+	private int 				nbJourInfecte 		= 0;
 	
-	/*Constructeur */
+	// Limite du nombre de jours avant la guerison de l'humain
+	private static final int 	MAX_JOUR_INFECTE 	= 30;
+	
+	/*** Constructeurs ***/
 	public Humain () {
 		super ();
 	}
+	
 	public Humain (int x, int y) {
 		super(x,y);
 	}
 	
-	
-	/* Methodes */
-	// The best methode : la plus sanguinaire
+	/*** Methodes ***/
 	@Override
+	/*******************************************************************
+	 * killAgent:		Incremente le nombre de jours vecu par l'agent
+	 * 					Les agents infectes ont une chance de mourir
+	 * 					Si l'agent infecte survit toute la duree de la
+	 * 					maladie, il est gueri
+	 * 
+	 * @param array:	Liste des agents present dans la matrice
+	 * @return 			True si l'agent meurt, false sinon
+	 *******************************************************************/
 	public boolean killAgent(Agents[][] array) {
 		double comportement = rand.nextDouble();
 		if (this.infecte == true) {
@@ -27,23 +39,25 @@ public class Humain extends Agents {
 					return true;
 			}
 			
-			
 			if(this.nbJourInfecte == MAX_JOUR_INFECTE) {
 				System.out.println("un humain est gueri");
 				this.infecte = false;
-				
 			}
-			
 		}
 		return false;
 	}
-	// PErmet de faire des bebes
+	
 	@Override
+	/*******************************************************************
+	 * @param agent:	Agent avec qui l'agent this tente de s'accoupler
+	 * @return 			True si l'accouplement donne une naissance,
+	 * 					False sinon
+	 *******************************************************************/
 	public boolean naissance(Agents agent) {
 		
 		double chance = rand.nextDouble();
 		
-		if (chance > 0.95 && agent.estFille == false && this.aBebe == false && agent.getClass().getName() == CLASSE_HUMAIN) {
+		if (chance > 0.95 && agent.fille == false && this.aBebe == false && agent.getClass().getName() == CLASSE_HUMAIN) {
 			System.out.println("Un humain est nee");
 			compteNaissanceHumain ();
 			this.aBebe = true;
@@ -51,14 +65,20 @@ public class Humain extends Agents {
 		}
 		return false;
 	}
+	
 	@Override
+	/*******************************************************************
+	 * mortAgent:		Supprime l'agent de la liste des agents 'array'
+	 * 					Et incrementre le nombre de deces de son espece
+	 * 
+	 * @param array:	Liste des agents present dans la matrice
+	 *******************************************************************/
 	public void mortAgent (Agents[][] array) {
 		array[this.getX()][this.getY()] = null;
 		compteMortHumain();
 	}
 	
-	// resultat
-	
+	/*** Methodes statistiques ***/
 	private void compteMortHumain () {
 		matriceResultat [nbSimu][COL_MORT_H] += 1;
 	}
@@ -67,10 +87,9 @@ public class Humain extends Agents {
 		matriceResultat [nbSimu][COL_NAISSANCE_H] += 1;
 	}
 	
-/* *****************ToString ********************/
 	@Override
 	public String toString () {
-		if (this.estFille == true) { 
+		if (this.fille == true) { 
 			if (this.infecte == true) {
 				return "G";
 			}
@@ -87,7 +106,4 @@ public class Humain extends Agents {
 			}
 		}
 	}
-
-
-	
 }

@@ -5,27 +5,50 @@ import java.util.Scanner;
 
 public class Play {
 
+	/*** Attributs ***/
 	// Matrice representant notre experience
 	private Agents[][] 			matrix;
 
-	// Dimension de notre matrice de cases
-	public static final int 	SIZE 				= 20 ;
-	public static final int 	NB_AGENTS_DEPART  	= 30 ;
-	private static final int 	TEMPS 				= 1;
-	private static final int 	NB_SIMU				= 10 ;
-	
+	// Dimension de notre matrice
+	public static final int 	SIZE 				= 20;
 
+	// Nombre total d'agents (Humain ou Moustique) au depart de la simulation
+	public static final int 	NB_AGENTS_DEPART  	= 30;
+
+	// Nombre de milisecondes ecoulees entre chaque jour de simulation
+	// On peut le passer a 2000 pour debuguer par exemple
+	private static final int 	TEMPS 				= 1;
+
+	// Nombre de simulations souhaite
+	private static final int 	NB_SIMU				= 10;
+
+
+	// Stock les statistiques a l'issue de la journee simulee
+	// [0]		= Nombre d'humains vivants
+	// [1]		= Nombre d'humains infectes
+	// [2]		= Nombre de moustiques vivants
+	// [3]		= Nombre de moustiques infectes
 	private int[] 				resultat 			= new int[4];
+
+	// Tableau qui stock quel indicateur a mis fin a la simulation x
+	// [x][0]	= false s'il reste des humains
+	// [x][1]	= false s'il reste des moustiques
+	// [x][2]	= false s'il reste des agents infectes
+	
+	// Matrice qui conserve les agents de departs
+	private static int [][] 			matriceAgentsDepart = new int [10][4]; 			
 	private boolean[][] 		resultatSimulation 	= new boolean[10][3];
-	// Liste des agents presents dans notre matrice.
+
+	// Liste des agents presents dans notre matrice
 	private ArrayList<Agents> 	nextList 			= new ArrayList<Agents>();
 
 	// Instance globale de notre MersenneTwister pour notre classe
-	private MersenneTwister rand 					= new MersenneTwister();
+	private MersenneTwister 	rand 				= new MersenneTwister();
 
+	/*** Constructeur ***/
 	/*******************************************************************
-	 * Constructeur de notre instance Play Initialise un tableau d'agents vide et de
-	 * dimension 'SIZE'
+	 * Constructeur de notre instance Play
+	 * Initialise un tableau d'agents vide avec une dimension 'SIZE'
 	 ********************************************************************/
 	public Play() {
 		matrix = new Agents[SIZE][SIZE];
@@ -36,24 +59,22 @@ public class Play {
 		}
 	}
 
-	/************ Methodes ************/
-
-
-
-	/* Methode principal */
+	/*** Methodes ***/
+	/* Methode principale qui appelle toutes les autres	
+	 * et gere l'ensemble des simulations */
 	public void jouer() {
-		int nombreSimu = 0;
-
-		int compteBoucle = 0;
-	
-		// initArray();
+		int nombreSimu 		= 0,
+			compteBoucle 	= 0;
 
 		while (nombreSimu < NB_SIMU) {
-			System.out.println("***********************nouvelle simulation*******************************");
+			System.out.println("***********************"
+					+ "nouvelle simulation"
+					+ "*******************************");
 			Agents.setNbSimu(nombreSimu);
 			boolean arret = false;
 			reInitMatrix();
 			initAleaMat();
+			conserveDepart (nombreSimu);
 			compteBoucle = 0;
 			while (arret != true) {
 
@@ -72,10 +93,11 @@ public class Play {
 			}
 			nombreSimu++;
 		}
-		MatriceRSimu();// 
+		MatriceRSimu();
+		afficheAgentsDepart();
 	}
 
-	// vide la matrice au debut de chaque simulation
+	/* vide la matrice au debut de chaque simulation */
 	private void reInitMatrix() {
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
@@ -83,7 +105,13 @@ public class Play {
 			}
 		}
 	}
-	// test d'arret de la simulation 
+
+	/*******************************************************************
+	 * @param nombreSimu:	Numero actuel de la simulation
+	 * 
+	 * @return	True si un des indicateur de 'resultatSimulation' = True
+	 * 			False sinon	
+	 *******************************************************************/ 
 	private boolean testArretSimulation(int nombreSimu) {
 		System.out.println("nombre simu : " + nombreSimu);
 		if (resultat[0] == 0) {
@@ -91,7 +119,6 @@ public class Play {
 
 			resultatSimulation[nombreSimu][0] = true;
 			return true;
-
 		}
 		if (resultat[2] == 0) {
 			resultatSimulation[nombreSimu][1] = true;
@@ -99,33 +126,42 @@ public class Play {
 		}
 		if (resultat[1] == 0 && resultat[3] == 0) {
 			resultatSimulation[nombreSimu][2] = true;
-			 return true;
+			return true;
 		}
 		return false;
 	}
-	// compte les agents par espece et infecte nn infecte 
+
+	/*******************************************************************
+	 * resultat:	Analyse si l'agent est un Humain ou un Moustique,
+	 * 				s'il est infecte ou non
+	 * 				et incremente les indicateurs associes en consquence
+	 * 
+	 * @param agent:	Agent dont on recupere les indicateurs
+	 *******************************************************************/
 	private void resultat(Agents agent) {
 
 		if (agent.getClass().getName() == Agents.getClasseHumain()) {
-			resultat[0] += 1;
+			resultat[0] ++;
 			if (agent.infecte == true) {
-				resultat[1] += 1;
+				resultat[1] ++;
 			}
 		}
 		if (agent.getClass().getName() == Agents.getClasseMosquito()) {
-			resultat[2] += 1;
-			if (agent.infecte == true && agent.isEstFille() == true) {
-				resultat[3] += 1;
+			resultat[2] ++;
+			if (agent.infecte == true && agent.isFille() == true) {
+				resultat[3] ++;
 			}
 		}
 	}
-	// initialise le tableau resultat a 0
+
+	/* Initialise le tableau resultat a 0 */
 	private void initResultat() {
 		for (int i = 0; i < resultat.length; i++) {
 			resultat[i] = 0;
 		}
 	}
-	// affiche le tableau de resultat
+
+	/* Affiche le tableau de resultats de la simulation actuelle */
 	private void afficheResultat() {
 		for (int i = 0; i < resultat.length; i++) {
 			switch (i) {
@@ -146,8 +182,10 @@ public class Play {
 		}
 	}
 
-	// parcour la matrice appelle cherche voisin compte le nombre d'agents de
-	// moustqiue et humain et le nombre de chaque infecte
+	/*******************************************************************
+	 * parcoursMatrice:	Parcours la matrice et traite les voisins de
+	 * 					chaque agent
+	 *******************************************************************/
 	private void parcoursMatrice() {
 		int compteAgents = 0;
 
@@ -157,18 +195,16 @@ public class Play {
 					compteAgents++;
 					resultat(matrix[i][j]);
 					if (matrix[i][j].killAgent(matrix) == false) {
-
 						chercheVoisins(matrix[i][j]);
 
-						if (matrix[i][j].isEstMort() == false) {
+						if (matrix[i][j].isMort() == false) {
 							matrix[i][j].setaBebe(false);
 							addListe(matrix[i][j]);
-
-						} else {
-							if (matrix[i][j].isEstMort() == true) {
+						} 
+						else {
+							if (matrix[i][j].isMort() == true) {
 								matrix[i][j].mortAgent(matrix);
 							}
-
 						}
 					}
 				}
@@ -180,14 +216,19 @@ public class Play {
 		System.out.println("Le nombre d'agents est " + compteAgents);
 	}
 
-	// Modifie la position et ajoute a la liste
+	/* Modifie la position de l'agent et l'ajoute a la liste */
 	private void addListe(Agents agent) {
 		agent.changePosition();
 		nextList.add(agent);
 	}
 
-	// parcours les voisins proche et appelle les fonction de comportement sur les
-	// voisins
+	/*******************************************************************
+	 * chercheVoisins:	Parcours les cases adjacentes a celle de l'agent
+	 * 					et le fait interagir avec ses voisins
+	 * 					L'agent meurt s'il a plus de 4 voisins
+	 * 				
+	 * @param agent:	Agent dont on cherche les voisins
+	 *******************************************************************/
 	private void chercheVoisins(Agents agent) {
 		int x = 0, y = 0, nombreVoisin = 0;
 
@@ -200,27 +241,28 @@ public class Play {
 					comportementAgents(agent, matrix[x][y]);
 				}
 				if (agent.getClass().getName() == Agents.getClasseMosquito() && nombreVoisin > 4) {
-					agent.setEstMort(true);
+					agent.setMort(true);
 				}
-
 			}
 		}
-
 	}
 
-	// appelle les fonction sur les comportement // TODO : je cree les nouveau
-	// moustique la je n'ai pas reussi a ajouter a
-	// la liste depuis d'autre class sans : nullexeption pointer
+	/*******************************************************************
+	 * comportementAgents:	Appelle les methodes de comportement de
+	 * 						l'agent en fonction de son voisin
+	 * 
+	 * @param agent:	Agent dont on va simuler les comportements
+	 * @param voisin:	Agent cible avec lequel 'agent' va interagir
+	 *******************************************************************/
 	private void comportementAgents(Agents agent, Agents voisin) {
-		if (agent.isEstFille() == true && agent.isEstMort() == false) {
-			if (voisin.isEstFille() == false && agent.getClass().getName() == Agents.getClasseHumain()) {
+		if (agent.isFille() == true && agent.isMort() == false) {
+			if (voisin.isFille() == false && agent.getClass().getName() == Agents.getClasseHumain()) {
 				if (agent.naissance(voisin) == true) {
 					nextList.add(new Humain(agent.getX(), agent.getY()));
 				}
 			}
 			if (agent.getClass().getName() == Agents.getClasseMosquito()) {
 				if (agent.naissance(voisin) == true) {
-					
 					nextList.add(new Mosquito(agent.getX(), agent.getY(), false));
 				}
 				agent.contagion(voisin);
@@ -228,10 +270,11 @@ public class Play {
 		}
 	}
 
-	
-
-	// verifie si la position d'un agent et libre sinon on la change est on
-	// reverifie: le changement ressemble a un saute moutons :)
+	/*******************************************************************
+	 * verificationDeplacement:	On verifie que la nouvelle position de
+	 * 		l'agent est libre. Tant que ce n'est pas le cas, on lui
+	 * 		affecte une nouvelle position
+	 *******************************************************************/
 	private void verificationDeplacement() {
 		Agents agent = null;
 		int verification = 0;
@@ -240,17 +283,16 @@ public class Play {
 			agent = nextList.get(index);
 			verification = 0;
 			for (Agents agentControl : nextList) {
-
-				if (agent.PositionControle(agentControl)) {
+				if (agent.hasPositionValide(agentControl)) {
 					verification++;
-
 				}
 			}
 			if (verification == (nextList.size() - 1)) {
-				if (agent.restePosition() == true) {
+				if (agent.hasPositionDifferente() == true) {
 					deplaceAgent(agent);
 				}
-			} else {
+			}
+			else {
 				agent.newPosition();
 				index--;
 			}
@@ -258,8 +300,12 @@ public class Play {
 		nextList.clear();
 	}
 
-	// deplace l'agent a sa nouvelle position et verifie si sont ancienne
-	// postition est occupe si libre on libere la case
+	/*******************************************************************
+	 * deplaceAgent:	On positionne 'agent' dans sa nouvelle case et
+	 * 		si la case n'est pas occupee par un autre agent, on la libere 
+	 * 
+	 * @param agent:	Agent a deplacer
+	 *******************************************************************/
 	private void deplaceAgent(Agents agent) {
 		matrix[agent.getX()][agent.getY()] = agent;
 		if (matrix[agent.getCopyX()][agent.getCopyY()] == agent) {
@@ -267,10 +313,8 @@ public class Play {
 		}
 	}
 
-	
-
-	// genere la population au debut : je changerai surement pour la presentation
-	// pour avoir un comportement ""parfait""
+	/* Initialise la matrice de depart avec des agents 
+	 * generes de maniere pseudo aleatoire et compte les agents de depart */
 	public void initAleaMat() {
 		double alea = 0.;
 		for (int i = 0; i < 30; i++) {
@@ -283,6 +327,40 @@ public class Play {
 			}
 		}
 		compteAgentsDepart();
+	}
+	/* Lis le tableau resultat et conserve les agents de depart */
+	
+	private void conserveDepart (int nombreSimu) {
+		for (int i = 0; i < resultat.length; i++) {
+			matriceAgentsDepart[nombreSimu][i] = resultat[i];
+		}
+		
+	}
+	/* affiche la matrice qui contient les agents de debut de simulation */
+	public static void afficheAgentsDepart () {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 4; j ++) {
+				System.out.print("  " + matriceAgentsDepart[i][j] + "   ");
+			}
+			System.out.println("");
+		}
+	}
+
+	/* Affiche pour chaque simulation l'etat des indicateurs de fin */
+	private void MatriceRSimu() {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 3; j++) {
+				System.out.println(" " + resultatSimulation[i][j] + " ");
+			}
+			System.out.println("");
+		}
+	}
+
+	/* Recupere les indicateurs relatifs aux agents initiaux */
+	private void compteAgentsDepart() {
+		for (Agents agent : nextList) {
+			resultat(agent);
+		}
 	}
 
 	@Override
@@ -300,21 +378,4 @@ public class Play {
 		}
 		return view;
 	}
-
-	private void MatriceRSimu() {
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 3; j++) {
-				System.out.println(" " + resultatSimulation[i][j] + " ");
-			}
-			System.out.println("");
-		}
-	}
-
-	private void compteAgentsDepart() {
-		for (Agents agent : nextList) {
-			resultat(agent);
-		}
-	}
-
-
 }
