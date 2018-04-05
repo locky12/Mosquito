@@ -97,8 +97,8 @@ public class Play {
 			Agents.MATRICE_RESULTAT[nombreSimu][6]	= compteBoucle;
 			nombreSimu++;
 		}
-		MatriceRSimu();
 		afficheAgentsDepart();
+		MatriceRSimu();
 	}
 
 	/* vide la matrice au debut de chaque simulation */
@@ -358,11 +358,16 @@ public class Play {
 
 	/* Affiche pour chaque simulation l'etat des indicateurs de fin */
 	private void MatriceRSimu() {
+		System.out.println(
+				"\n\n*********************************************"
+				+ " Cause d'arret des simulations "
+				+ "*********************************************\n");
+		System.out.print("Simulation" + "\t\tCause\n");
 		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 3; j++) {
-				System.out.println(" " + resultatSimulation[i][j] + " ");
-			}
-			System.out.println("");
+			System.out.printf("%d)", i + 1);
+				if(resultatSimulation[i][0] == true) System.out.println("\t\t    Plus d'Humains");
+				if(resultatSimulation[i][1] == true) System.out.println("\t\t    Plus de Moustiques");
+				if(resultatSimulation[i][2] == true) System.out.println("\t\t    Plus d'agent infecte");
 		}
 	}
 
