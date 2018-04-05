@@ -28,9 +28,12 @@ public class Play {
 	// [1]		= Nombre d'humains infectes
 	// [2]		= Nombre de moustiques vivants
 	// [3]		= Nombre de moustiques infectes
-	// [4]		= Nombre de jours ecoules pour cette simulation
-	private int[] 				resultat 			= new int[5];
+	private static int[] 		resultat 			= new int[4];
 
+	
+	// Matrice qui conserve les agents de departs
+	private static int [][] 	matriceAgentsDepart = new int [10][4]; 		
+	
 	// Tableau qui stock quel indicateur a mis fin a la simulation x
 	// [x][0]	= false s'il reste des humains
 	// [x][1]	= false s'il reste des moustiques
@@ -73,6 +76,7 @@ public class Play {
 			boolean arret = false;
 			reInitMatrix();
 			initAleaMat();
+			conserveDepart (nombreSimu);
 			compteBoucle = 0;
 			while (arret != true) {
 
@@ -89,9 +93,12 @@ public class Play {
 				arret = testArretSimulation(nombreSimu);
 				initResultat();
 			}
+			// On stock le nombre de jours necessaires a cette simulation
+			Agents.MATRICE_RESULTAT[nombreSimu][6]	= compteBoucle;
 			nombreSimu++;
 		}
 		MatriceRSimu();
+		afficheAgentsDepart();
 	}
 
 	/* vide la matrice au debut de chaque simulation */
@@ -311,7 +318,7 @@ public class Play {
 	}
 
 	/* Initialise la matrice de depart avec des agents 
-	 * generes de maniere pseudo aleatoire */
+	 * generes de maniere pseudo aleatoire et compte les agents de depart */
 	public void initAleaMat() {
 		double alea = 0.;
 		for (int i = 0; i < 30; i++) {
@@ -324,6 +331,23 @@ public class Play {
 			}
 		}
 		compteAgentsDepart();
+	}
+	/* Lis le tableau resultat et conserve les agents de depart */
+	
+	private void conserveDepart (int nombreSimu) {
+		for (int i = 0; i < resultat.length; i++) {
+			matriceAgentsDepart[nombreSimu][i] = resultat[i];
+		}
+		
+	}
+	/* affiche la matrice qui contient les agents de debut de simulation */
+	public static void afficheAgentsDepart () {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 4; j ++) {
+				System.out.print("  " + matriceAgentsDepart[i][j] + "   ");
+			}
+			System.out.println("");
+		}
 	}
 
 	/* Affiche pour chaque simulation l'etat des indicateurs de fin */

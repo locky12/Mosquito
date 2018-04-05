@@ -6,6 +6,7 @@ public class Main {
 		Play play = new Play();
 		
 		play.jouer();
+		
 		Agents.afficheResultatMatrice();
 	}
 	

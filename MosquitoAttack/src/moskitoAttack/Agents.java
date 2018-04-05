@@ -22,11 +22,11 @@ public abstract class Agents {
 	protected boolean 				aBebe 				= false;
 
 	// Resultat;
-	private static final int		NB_COL 				= 6;
+	private static final int		NB_COL 				= 7;
 	private static final int		NB_LIGNE 			= 10;
 
 	// Contient les resultats des differents indicateurs pour chaque simulation
-	protected static int[][]		MATRICE_RESULTAT	= new int[NB_LIGNE][NB_COL];
+	public static int[][]			MATRICE_RESULTAT	= new int[NB_LIGNE][NB_COL];
 
 	// Stock le resultat des calculs statistiques a l'issue de l'experience globale
 	protected static double[][]		MATRICE_ANALYSE		= new double[4][NB_COL];
@@ -44,6 +44,8 @@ public abstract class Agents {
 	protected static final int		COL_NAISSANCE_M 	= 3;
 	protected static final int		COL_INFECTE 		= 4;
 	protected static final int		COL_M_INFECTE		= 5;
+	protected static final int		COL_NB_JOURS		= 6;
+	
 
 
 	/*** Constructeurs ***/
@@ -142,9 +144,9 @@ public abstract class Agents {
 	public static void afficheResultatMatrice() {
 
 		System.out.println(
-				"\n\n************************************************ Resultat ************************************************\n");
+				"\n\n******************************************************** Resultat ********************************************************\n");
 		System.out.print("Simulation" + "\tH_dead\t\t" + "H_born\t\t" + "M_dead\t\t" + "M_born\t\t" + " H_infecte\t"
-				+ "M_infecte\t\n");
+				+ "M_infecte\t" + "Nb_Jours\t\n");
 
 		for (int i = 0; i < NB_LIGNE; i++) {
 			System.out.printf("%d)\t\t", i + 1);
@@ -183,6 +185,7 @@ public abstract class Agents {
 
 			// Reinitialisation de la moyenne pour la colonne suivante
 			moyenne	= 0;
+
 			for (int i = 0; i < NB_LIGNE; i++) { // Parcours du resultat de chaque simulation
 				moyenne += MATRICE_RESULTAT[i][x];
 			}
