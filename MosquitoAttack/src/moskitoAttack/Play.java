@@ -342,9 +342,15 @@ public class Play {
 	}
 	/* affiche la matrice qui contient les agents de debut de simulation */
 	public static void afficheAgentsDepart () {
+		System.out.println(
+				"\n\n****************************************************"
+				+ " Agents de depart "
+				+ "****************************************************\n");
+		System.out.print("Simulation" + "\tH_vivant\t" + "H_infecte\t" + "M_vivant\t" + "M_infecte\t\n");
 		for (int i = 0; i < 10; i++) {
+			System.out.printf("%d)\t\t", i + 1);
 			for (int j = 0; j < 4; j ++) {
-				System.out.print("  " + matriceAgentsDepart[i][j] + "   ");
+				System.out.print("" + matriceAgentsDepart[i][j] + "\t\t");
 			}
 			System.out.println("");
 		}

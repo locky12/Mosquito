@@ -144,7 +144,9 @@ public abstract class Agents {
 	public static void afficheResultatMatrice() {
 
 		System.out.println(
-				"\n\n******************************************************** Resultat ********************************************************\n");
+				"\n\n********************************************************"
+				+ " Resultat "
+				+ "********************************************************\n");
 		System.out.print("Simulation" + "\tH_dead\t\t" + "H_born\t\t" + "M_dead\t\t" + "M_born\t\t" + " H_infecte\t"
 				+ "M_infecte\t" + "Nb_Jours\t\n");
 
