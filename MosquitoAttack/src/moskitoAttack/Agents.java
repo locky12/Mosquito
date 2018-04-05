@@ -192,6 +192,7 @@ public abstract class Agents {
 	public static void calculMoyenne() {
 		double moyenne = 0;
 		for (int x = 0; x < NB_COL; x++) {
+			moyenne = 0;
 			for (int i = 0; i < NB_LIGNE; i++) { // Parcours du resultat de chaque simulation
 				moyenne += matriceResultat[i][x];
 			}
@@ -214,6 +215,7 @@ public abstract class Agents {
 				// Carre de l'ecart a la moyenne de chaque valeur
 				// On calcule la somme des valeurs obtenues
 				variance += Math.pow(matriceResultat[i][x] - moyenne, 2);
+				//System.out.println("Variance = " + variance);
 			}
 
 			variance /= (NB_LIGNE - 1);
